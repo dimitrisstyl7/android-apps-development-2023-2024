@@ -9,7 +9,7 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/speed_button"
+        android:id="@+id/speedButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="getSpeed"
@@ -23,17 +23,74 @@
         app:layout_constraintVertical_bias="0.023" />
 
     <TextView
-        android:id="@+id/speed_textView"
+        android:id="@+id/speedTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="76dp"
+        android:layout_marginStart="60dp"
         android:text="@string/initial_speed"
+        android:textColorHint="@android:color/black"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/speed_button"
+        app:layout_constraintStart_toEndOf="@+id/speedButton"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.036" />
+        app:layout_constraintVertical_bias="0.039" />
+
+    <TextView
+        android:id="@+id/speedLimitTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="@string/speed_limit"
+        android:textColor="@color/black"
+        android:textColorHint="@android:color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.055"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/speedButton" />
+
+    <EditText
+        android:id="@+id/speedLimitEditText"
+        android:layout_width="70dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="28dp"
+        android:ems="10"
+        android:hint="@string/speed_limit_placeholder"
+        android:importantForAutofill="no"
+        android:inputType="numberDecimal"
+        android:textColor="@color/input_color"
+        android:textColorHint="@color/input_color"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/speedLimitTextView"
+        app:layout_constraintTop_toBottomOf="@+id/speedButton" />
+
+    <Button
+        android:id="@+id/speedLimitButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="28dp"
+        android:onClick="saveSpeedLimit"
+        android:text="@string/save_button"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/speedLimitEditText"
+        app:layout_constraintTop_toBottomOf="@+id/speedButton" />
+
+    <Button
+        android:id="@+id/speedViolationsButton"
+        android:layout_width="200dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="32dp"
+        android:onClick="showViolations"
+        android:text="@string/show_speed_violations"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.075"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/speedLimitEditText" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

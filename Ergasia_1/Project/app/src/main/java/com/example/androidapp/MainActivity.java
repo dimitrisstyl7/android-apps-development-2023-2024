@@ -1,28 +1,56 @@
 package com.example.androidapp;
 
 import android.Manifest;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
+import java.sql.Timestamp;
 
 public class MainActivity extends AppCompatActivity implements LocationListener {
     private TextView speed_textView;
     private LocationManager locationManager;
+    private SharedPreferences preferences;
+    private float speedLimit;
+    private EditText speedLimitEditText;
+    private SQLiteDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        speed_textView = findViewById(R.id.speed_textView);
+        speed_textView = findViewById(R.id.speedTextView);
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        preferences = getPreferences(MODE_PRIVATE);
+        readSpeedLimit();
+        speedLimitEditText = findViewById(R.id.speedLimitEditText);
+        speedLimitEditText.setText(String.valueOf(speedLimit));
+        databaseConnection();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        database.close();
+    }
+
+    private void databaseConnection() {
+        database = openOrCreateDatabase("speedLimitViolation.db", MODE_PRIVATE, null);
+        database.execSQL("Create table if not exists SpeedLimitViolation(longitude Text, latitude Text, speed Text, timestamp Text);");
     }
 
     public void getSpeed(View view) {
@@ -36,9 +64,73 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         }
     }
 
-
     @Override
     public void onLocationChanged(@NonNull Location location) {
-        speed_textView.setText(String.format("%s m/s", location.getSpeed()));
+        float speed = location.getSpeed();
+        speed_textView.setText(String.format("%s m/s", speed));
+        checkSpeedLimitViolation(speed, location);
+    }
+
+    private void readSpeedLimit() {
+        speedLimit = preferences.getFloat("speedLimit", -1);
+        if (speedLimit == -1) {
+            speedLimit = 40;
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putFloat("speedLimit", speedLimit);
+            editor.apply();
+        }
+    }
+
+    public void saveSpeedLimit(View view) {
+        // Save the new speed limit.
+        speedLimit = Float.parseFloat(speedLimitEditText.getText().toString());
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putFloat("speedLimit", speedLimit);
+        editor.apply();
+
+        // Inform the user that the new speed limit has been saved.
+        Toast.makeText(this, "New speed limit saved", Toast.LENGTH_LONG).show();
+    }
+
+    private void checkSpeedLimitViolation(float speed, Location location) {
+        // Check if the speed is greater than the speed limit.
+        if (speed > speedLimit) {
+            // Change activity color to red.
+            findViewById(R.id.main_activity).setBackgroundColor(ContextCompat.getColor(this, R.color.red));
+
+            // Insert speed, longitude, latitude and timestamp into the database.
+            String speedString = String.valueOf(speed);
+            String longitudeString = String.valueOf(location.getLongitude());
+            String latitudeString = String.valueOf(location.getLatitude());
+            String timestampString = String.valueOf(new Timestamp(System.currentTimeMillis()));
+            System.out.printf("Speed: %s, Longitude: %s, Latitude: %s, Timestamp: %s%n", speedString, longitudeString, latitudeString, timestampString);
+            String parameterizedQuery = "Insert into SpeedLimitViolation Values(?,?,?,?);";
+            database.execSQL(parameterizedQuery, new String[]{longitudeString, latitudeString, speedString, timestampString});
+        }
+        else {
+            // Change activity color to main_activity_bg_color.
+            findViewById(R.id.main_activity).setBackgroundColor(ContextCompat.getColor(this, R.color.main_activity_bg_color));
+        }
+    }
+
+    public void showViolations(View view) {
+        try (Cursor cursor = database.rawQuery("Select * from SpeedLimitViolation", null)) {
+            StringBuilder data = new StringBuilder();
+            while (cursor.moveToNext()) {
+                data.append("Longitude: ").append(cursor.getString(0)).append("\n");
+                data.append("Latitude: ").append(cursor.getString(1)).append("\n");
+                data.append("Speed: ").append(cursor.getString(2)).append("\n");
+                data.append("Timestamp: ").append(cursor.getString(3)).append("\n");
+                data.append("-----------------\n");
+            }
+            showMessage(data.toString());
+        }
+    }
+
+    private void showMessage(String message) {
+        new androidx.appcompat.app.AlertDialog.Builder(this)
+                .setTitle("Speed Limit Violations")
+                .setMessage(message)
+                .show();
     }
 }

@@ -3,4 +3,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="main_activity_bg_color">#1FAEE4</color>
+    <color name="input_color">#0D47A1</color>
+    <color name="red">#FF0000</color>
 </resources>
