@@ -82,6 +82,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     }
 
     public void saveSpeedLimit(View view) {
+        // Check if user has entered a speed limit.
+        if (speedLimitEditText.getText().toString().isEmpty()) {
+            Toast.makeText(this, "Please enter a speed limit", Toast.LENGTH_LONG).show();
+            return;
+        }
         // Save the new speed limit.
         speedLimit = Float.parseFloat(speedLimitEditText.getText().toString());
         SharedPreferences.Editor editor = preferences.edit();
@@ -106,8 +111,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             System.out.printf("Speed: %s, Longitude: %s, Latitude: %s, Timestamp: %s%n", speedString, longitudeString, latitudeString, timestampString);
             String parameterizedQuery = "Insert into SpeedLimitViolation Values(?,?,?,?);";
             database.execSQL(parameterizedQuery, new String[]{longitudeString, latitudeString, speedString, timestampString});
-        }
-        else {
+        } else {
             // Change activity color to main_activity_bg_color.
             findViewById(R.id.main_activity).setBackgroundColor(ContextCompat.getColor(this, R.color.main_activity_bg_color));
         }
