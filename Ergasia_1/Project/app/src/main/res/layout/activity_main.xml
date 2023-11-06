@@ -80,6 +80,7 @@
         android:hint="@string/speed_limit_placeholder"
         android:importantForAutofill="no"
         android:inputType="numberDecimal"
+        android:minHeight="48dp"
         android:textAlignment="center"
         android:textColor="@color/input_color"
         android:textColorHint="@color/input_color"
@@ -111,5 +112,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/speedTextView" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:contextClickable="false"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/speedViolationsButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
