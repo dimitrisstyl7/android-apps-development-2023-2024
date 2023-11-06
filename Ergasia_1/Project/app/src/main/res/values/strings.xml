@@ -7,4 +7,6 @@
     <string name="save_button">Save</string>
     <string name="speed_limit_placeholder">in m/s</string>
     <string name="show_speed_violations">Speed limit violations</string>
+    <string name="all_violations">All</string>
+    <string name="week_violations">This week</string>
 </resources>
