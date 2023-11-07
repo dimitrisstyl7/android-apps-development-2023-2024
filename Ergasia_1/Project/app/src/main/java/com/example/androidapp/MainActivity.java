@@ -1,6 +1,7 @@
 package com.example.androidapp;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -10,6 +11,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -23,6 +25,7 @@ import androidx.core.content.ContextCompat;
 import java.sql.Timestamp;
 
 public class MainActivity extends AppCompatActivity implements LocationListener {
+    private View mainActivity;
     private TextView speed_textView;
     private LocationManager locationManager;
     private SharedPreferences preferences;
@@ -31,12 +34,15 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     private SQLiteDatabase database;
     private RadioButton weekViolationsRadioButton, allViolationsRadioButton;
     private TextView warningTextView;
+    private MyTextToSpeech textToSpeech;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        textToSpeech = new MyTextToSpeech(this);
         databaseConnection();
         setContentView(R.layout.activity_main);
+        mainActivity = findViewById(R.id.main_activity);
         speed_textView = findViewById(R.id.speedTextView);
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         preferences = getPreferences(MODE_PRIVATE);
@@ -78,6 +84,14 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         checkSpeedLimitViolation(speed, location);
     }
 
+    public void stopSpeedMeasurement(View view) {
+        // Stop location updates.
+        locationManager.removeUpdates(this);
+        mainActivity.setBackgroundColor(ContextCompat.getColor(this, R.color.main_activity_bg_color));
+        warningTextView.setVisibility(View.INVISIBLE);
+        speed_textView.setText("-");
+    }
+
     private void readSpeedLimit() {
         speedLimit = preferences.getFloat("speedLimit", -1);
         if (speedLimit == -1) {
@@ -108,26 +122,33 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         // Check if the speed is greater than the speed limit.
         if (speed > speedLimit) {
             // Change activity color to red.
-            findViewById(R.id.main_activity).setBackgroundColor(ContextCompat.getColor(this, R.color.red));
+            mainActivity.setBackgroundColor(ContextCompat.getColor(this, R.color.red));
 
             // Change the visibility of the warning text view to visible.
             warningTextView.setVisibility(View.VISIBLE);
 
+            // Speak the warning.
+            textToSpeech.speak(warningTextView.getText().toString());
+
             // Insert speed, longitude, latitude and timestamp into the database.
-            String speedString = String.valueOf(speed);
-            String longitudeString = String.valueOf(location.getLongitude());
-            String latitudeString = String.valueOf(location.getLatitude());
-            String timestampString = String.valueOf(new Timestamp(System.currentTimeMillis()));
-            System.out.printf("Speed: %s, Longitude: %s, Latitude: %s, Timestamp: %s%n", speedString, longitudeString, latitudeString, timestampString);
-            String parameterizedQuery = "Insert into SpeedLimitViolation(longitude, latitude, speed, timestamp) values(?, ?, ?, ?);";
-            database.execSQL(parameterizedQuery, new String[]{longitudeString, latitudeString, speedString, timestampString});
+            insertDataIntoDatabase(speed, location);
         } else {
             // Change activity color to main_activity_bg_color.
-            findViewById(R.id.main_activity).setBackgroundColor(ContextCompat.getColor(this, R.color.main_activity_bg_color));
+            mainActivity.setBackgroundColor(ContextCompat.getColor(this, R.color.main_activity_bg_color));
 
             // Change the visibility of the warning text view to invisible.
             warningTextView.setVisibility(View.INVISIBLE);
         }
+    }
+
+    private void insertDataIntoDatabase(float speed, Location location) {
+        String speedString = String.valueOf(speed);
+        String longitudeString = String.valueOf(location.getLongitude());
+        String latitudeString = String.valueOf(location.getLatitude());
+        String timestampString = String.valueOf(new Timestamp(System.currentTimeMillis()));
+        System.out.printf("Speed: %s, Longitude: %s, Latitude: %s, Timestamp: %s%n", speedString, longitudeString, latitudeString, timestampString);
+        String parameterizedQuery = "Insert into SpeedLimitViolation(longitude, latitude, speed, timestamp) values(?, ?, ?, ?);";
+        database.execSQL(parameterizedQuery, new String[]{longitudeString, latitudeString, speedString, timestampString});
     }
 
     public void showViolations(View view) {
@@ -157,9 +178,9 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
                 // Check if the violation occurred in the current week.
                 if (year.equals(currYear) && month.equals(currMonth) && Integer.parseInt(currDay) - Integer.parseInt(day) <= 7) {
-                    data.append("Longitude: ").append(cursor.getString(0)).append("\n");
-                    data.append("Latitude: ").append(cursor.getString(1)).append("\n");
-                    data.append("Speed: ").append(cursor.getString(2)).append("\n");
+                    data.append("Longitude: ").append(cursor.getString(1)).append("\n");
+                    data.append("Latitude: ").append(cursor.getString(2)).append("\n");
+                    data.append("Speed: ").append(cursor.getString(3)).append("\n");
                     data.append("Timestamp: ").append(timestamp).append("\n");
                     data.append("-----------------\n");
                 }

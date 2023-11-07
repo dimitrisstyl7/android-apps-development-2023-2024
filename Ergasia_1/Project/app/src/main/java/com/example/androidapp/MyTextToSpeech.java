@@ -1,0 +1,27 @@
+package com.example.androidapp;
+
+import android.content.Context;
+import android.speech.tts.TextToSpeech;
+
+import java.util.Locale;
+
+public class MyTextToSpeech {
+    private final TextToSpeech tts;
+
+    public MyTextToSpeech(Context context) {
+        tts = new TextToSpeech(context, initListener);
+    }
+
+    TextToSpeech.OnInitListener initListener = new TextToSpeech.OnInitListener() {
+        @Override
+        public void onInit(int status) {
+            if (status == TextToSpeech.SUCCESS) {
+                tts.setLanguage(Locale.ENGLISH);
+            }
+        }
+    };
+
+    public void speak(String message) {
+        tts.speak(message, TextToSpeech.QUEUE_ADD, null, null);
+    }
+}
