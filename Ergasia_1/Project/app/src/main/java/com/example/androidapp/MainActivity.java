@@ -11,6 +11,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,10 +29,12 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     private float speedLimit;
     private EditText speedLimitEditText;
     private SQLiteDatabase database;
+    private RadioButton weekViolationsRadioButton, allViolationsRadioButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        databaseConnection();
         setContentView(R.layout.activity_main);
         speed_textView = findViewById(R.id.speedTextView);
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
@@ -39,7 +42,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         readSpeedLimit();
         speedLimitEditText = findViewById(R.id.speedLimitEditText);
         speedLimitEditText.setText(String.valueOf(speedLimit));
-        databaseConnection();
+        weekViolationsRadioButton = findViewById(R.id.weekViolationsRadioButton);
+        allViolationsRadioButton = findViewById(R.id.allViolationsRadioButton);
     }
 
     @Override
@@ -57,7 +61,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         // Check if the permission has already been granted.
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             // If granted, register for location updates.
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+            long minTime = 1000; // Minimum time interval between location updates, in milliseconds.
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, minTime, 0, this);
         } else {
             // If not granted, request the permission.
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
@@ -118,7 +123,46 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     }
 
     public void showViolations(View view) {
-        try (Cursor cursor = database.rawQuery("Select * from SpeedLimitViolation", null)) {
+        if (weekViolationsRadioButton.isChecked()) {
+            showWeekViolations();
+        } else if (allViolationsRadioButton.isChecked()) {
+            showAllViolations();
+        }
+        else {
+            Toast.makeText(this, "Please select an option", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void showWeekViolations() {
+        try (Cursor cursor = database.rawQuery("Select * from SpeedLimitViolation;", null)) {
+            StringBuilder data = new StringBuilder();
+            while (cursor.moveToNext()) {
+                // Get the year, month and day from the timestamp.
+                String timestamp = cursor.getString(3);
+                String year = timestamp.substring(0, 4);
+                String month = timestamp.substring(5, 7);
+                String day = timestamp.substring(8, 10);
+
+                // Get the current year, month and day.
+                String currYear = String.valueOf(new Timestamp(System.currentTimeMillis())).substring(0, 4);
+                String currMonth = String.valueOf(new Timestamp(System.currentTimeMillis())).substring(5, 7);
+                String currDay = String.valueOf(new Timestamp(System.currentTimeMillis())).substring(8, 10);
+
+                // Check if the violation occurred in the current week.
+                if (year.equals(currYear) && month.equals(currMonth) && Integer.parseInt(currDay) - Integer.parseInt(day) <= 7) {
+                    data.append("Longitude: ").append(cursor.getString(0)).append("\n");
+                    data.append("Latitude: ").append(cursor.getString(1)).append("\n");
+                    data.append("Speed: ").append(cursor.getString(2)).append("\n");
+                    data.append("Timestamp: ").append(timestamp).append("\n");
+                    data.append("-----------------\n");
+                }
+            }
+            showMessage("Last 7 days violations", data.toString());
+        }
+    }
+
+    private void showAllViolations() {
+        try (Cursor cursor = database.rawQuery("Select * from SpeedLimitViolation;", null)) {
             StringBuilder data = new StringBuilder();
             while (cursor.moveToNext()) {
                 data.append("Longitude: ").append(cursor.getString(0)).append("\n");
@@ -127,13 +171,13 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 data.append("Timestamp: ").append(cursor.getString(3)).append("\n");
                 data.append("-----------------\n");
             }
-            showMessage(data.toString());
+            showMessage("All violations", data.toString());
         }
     }
 
-    private void showMessage(String message) {
+    private void showMessage(String title, String message) {
         new androidx.appcompat.app.AlertDialog.Builder(this)
-                .setTitle("Speed Limit Violations")
+                .setTitle(title)
                 .setMessage(message)
                 .show();
     }
