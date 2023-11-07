@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     private EditText speedLimitEditText;
     private SQLiteDatabase database;
     private RadioButton weekViolationsRadioButton, allViolationsRadioButton;
+    private TextView warningTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         speedLimitEditText.setText(String.valueOf(speedLimit));
         weekViolationsRadioButton = findViewById(R.id.weekViolationsRadioButton);
         allViolationsRadioButton = findViewById(R.id.allViolationsRadioButton);
+        warningTextView = findViewById(R.id.warningTextView);
     }
 
     @Override
@@ -54,14 +56,14 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
     private void databaseConnection() {
         database = openOrCreateDatabase("speedLimitViolation.db", MODE_PRIVATE, null);
-        database.execSQL("Create table if not exists SpeedLimitViolation(longitude Text, latitude Text, speed Text, timestamp Text);");
+        database.execSQL("Create table if not exists SpeedLimitViolation(id integer primary key autoincrement, longitude text, latitude text, speed text, timestamp text);");
     }
 
     public void getSpeed(View view) {
         // Check if the permission has already been granted.
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             // If granted, register for location updates.
-            long minTime = 1000; // Minimum time interval between location updates, in milliseconds.
+            long minTime = 3000; // Minimum time interval between location updates, in milliseconds.
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, minTime, 0, this);
         } else {
             // If not granted, request the permission.
@@ -108,17 +110,23 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             // Change activity color to red.
             findViewById(R.id.main_activity).setBackgroundColor(ContextCompat.getColor(this, R.color.red));
 
+            // Change the visibility of the warning text view to visible.
+            warningTextView.setVisibility(View.VISIBLE);
+
             // Insert speed, longitude, latitude and timestamp into the database.
             String speedString = String.valueOf(speed);
             String longitudeString = String.valueOf(location.getLongitude());
             String latitudeString = String.valueOf(location.getLatitude());
             String timestampString = String.valueOf(new Timestamp(System.currentTimeMillis()));
             System.out.printf("Speed: %s, Longitude: %s, Latitude: %s, Timestamp: %s%n", speedString, longitudeString, latitudeString, timestampString);
-            String parameterizedQuery = "Insert into SpeedLimitViolation Values(?,?,?,?);";
+            String parameterizedQuery = "Insert into SpeedLimitViolation(longitude, latitude, speed, timestamp) values(?, ?, ?, ?);";
             database.execSQL(parameterizedQuery, new String[]{longitudeString, latitudeString, speedString, timestampString});
         } else {
             // Change activity color to main_activity_bg_color.
             findViewById(R.id.main_activity).setBackgroundColor(ContextCompat.getColor(this, R.color.main_activity_bg_color));
+
+            // Change the visibility of the warning text view to invisible.
+            warningTextView.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -127,8 +135,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             showWeekViolations();
         } else if (allViolationsRadioButton.isChecked()) {
             showAllViolations();
-        }
-        else {
+        } else {
             Toast.makeText(this, "Please select an option", Toast.LENGTH_LONG).show();
         }
     }
@@ -138,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             StringBuilder data = new StringBuilder();
             while (cursor.moveToNext()) {
                 // Get the year, month and day from the timestamp.
-                String timestamp = cursor.getString(3);
+                String timestamp = cursor.getString(4);
                 String year = timestamp.substring(0, 4);
                 String month = timestamp.substring(5, 7);
                 String day = timestamp.substring(8, 10);
@@ -165,10 +172,10 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         try (Cursor cursor = database.rawQuery("Select * from SpeedLimitViolation;", null)) {
             StringBuilder data = new StringBuilder();
             while (cursor.moveToNext()) {
-                data.append("Longitude: ").append(cursor.getString(0)).append("\n");
-                data.append("Latitude: ").append(cursor.getString(1)).append("\n");
-                data.append("Speed: ").append(cursor.getString(2)).append("\n");
-                data.append("Timestamp: ").append(cursor.getString(3)).append("\n");
+                data.append("Longitude: ").append(cursor.getString(1)).append("\n");
+                data.append("Latitude: ").append(cursor.getString(2)).append("\n");
+                data.append("Speed: ").append(cursor.getString(3)).append("\n");
+                data.append("Timestamp: ").append(cursor.getString(4)).append("\n");
                 data.append("-----------------\n");
             }
             showMessage("All violations", data.toString());
@@ -180,5 +187,10 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 .setTitle(title)
                 .setMessage(message)
                 .show();
+    }
+
+    public void clearDatabase(View view) {
+        database.execSQL("Delete from SpeedLimitViolation;");
+        Toast.makeText(this, "Database cleared", Toast.LENGTH_LONG).show();
     }
 }

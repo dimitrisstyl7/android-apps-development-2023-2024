@@ -9,4 +9,6 @@
     <string name="show_speed_violations">Speed limit violations</string>
     <string name="all_violations">All violations</string>
     <string name="week_violations">Last 7 days violations</string>
+    <string name="clear_database">Clear database</string>
+    <string name="warning_message">Warning!\nYou are exceeding the speed limit!</string>
 </resources>
