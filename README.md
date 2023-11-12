@@ -3,7 +3,7 @@
 
 <h3>Τμήμα Πληροφορικής</h3>
 
-<h3>Μάθημα:</h3>&nbsp;&nbsp;Σύγχρονα Θέματα Τεχνολογίας Λογισμικού - Λογισμικό Για Κινητές Συσκευές 2023-2024<br>&nbsp;&nbsp;/ Current Topics Of Software Engineering - Software For Mobile Devices
+<h3>Μάθημα:</h3>&nbsp;&nbsp;Σύγχρονα Θέματα Τεχνολογίας Λογισμικού - Λογισμικό Για Κινητές Συσκευές / Current Topics Of Software Engineering - Software For Mobile Devices
 
 <h3>Έτος:</h3>&nbsp;&nbsp;2023 - 2024
 
