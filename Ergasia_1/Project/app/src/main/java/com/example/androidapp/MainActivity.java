@@ -144,7 +144,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         String longitudeString = String.valueOf(location.getLongitude());
         String latitudeString = String.valueOf(location.getLatitude());
         String timestampString = String.valueOf(new Timestamp(System.currentTimeMillis()));
-        System.out.printf("Speed: %s, Longitude: %s, Latitude: %s, Timestamp: %s%n", speedString, longitudeString, latitudeString, timestampString);
         String parameterizedQuery = "Insert into SpeedLimitViolation(longitude, latitude, speed, timestamp) values(?, ?, ?, ?);";
         database.execSQL(parameterizedQuery, new String[]{longitudeString, latitudeString, speedString, timestampString});
     }
