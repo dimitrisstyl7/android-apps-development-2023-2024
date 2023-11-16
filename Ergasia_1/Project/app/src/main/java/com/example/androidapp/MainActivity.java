@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         textToSpeech = new MyTextToSpeech(this);
         databaseConnection();
         setContentView(R.layout.activity_main);
-        mainActivity = findViewById(R.id.main_activity);
+        mainActivity = findViewById(R.id.mainActivity);
         speed_textView = findViewById(R.id.speedTextView);
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         preferences = getPreferences(MODE_PRIVATE);
