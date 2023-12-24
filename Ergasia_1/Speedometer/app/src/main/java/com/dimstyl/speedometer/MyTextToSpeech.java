@@ -1,4 +1,4 @@
-package com.example.androidapp;
+package com.dimstyl.speedometer;
 
 import android.content.Context;
 import android.speech.tts.TextToSpeech;

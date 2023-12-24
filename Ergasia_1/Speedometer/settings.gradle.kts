@@ -13,5 +13,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "AndroidApp"
+rootProject.name = "Speedometer"
 include(":app")

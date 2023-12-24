@@ -1,4 +1,4 @@
-package com.example.androidapp;
+package com.dimstyl.speedometer;
 
 import android.Manifest;
 import android.content.SharedPreferences;
