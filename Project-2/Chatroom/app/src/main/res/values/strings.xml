@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Chatroom</string>
+    <string name="main_activity_title">Chatroom</string>
+    <string name="email_placeholder">email</string>
+    <string name="password_placeholder">password</string>
+    <string name="nickname_placeholder">nickname</string>
+    <string name="AUTOFILL_HINT_EMAIL_ADDRESS">emailAddress</string>
+    <string name="AUTOFILL_HINT_EMAIL_PASSWORD">password</string>
+    <string name="signIn_btn_text">Sign in</string>
+    <string name="signUp_btn_text">Sign up</string>
+    <string name="signOut_btn_text">Sign out</string>
+    <string name="chatroom_btn_text">Open chatroom</string>
+</resources>

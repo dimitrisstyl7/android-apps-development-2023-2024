@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "529964450352",
+    "project_id": "chatroom-895b8",
+    "storage_bucket": "chatroom-895b8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:529964450352:android:665946d6466202b4d223f5",
+        "android_client_info": {
+          "package_name": "com.dimstyl.chatroom"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvbZKJejHS8Xuxtyv4CTq_B8-ovh6RxOI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
