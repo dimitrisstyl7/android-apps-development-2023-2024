@@ -22,6 +22,7 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
     private EditText emailEditText, passwordEditText, nicknameEditText;
     private Button signInButton, signUpButton, signOutButton, chatroomButton;
+    private View separatorView_2;
     private FirebaseAuth auth;
     private FirebaseUser user;
     private FirebaseDatabase database;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         signUpButton = findViewById(R.id.signUpButton);
         signOutButton = findViewById(R.id.signOutButton);
         chatroomButton = findViewById(R.id.chatroomButton);
+        separatorView_2 = findViewById(R.id.separatorView_2);
 
         // Initialize Firebase Auth
         auth = FirebaseAuth.getInstance();
@@ -172,6 +174,9 @@ public class MainActivity extends AppCompatActivity {
         signUpButton.setVisibility(userAuthenticated ? View.GONE : View.VISIBLE);
         signOutButton.setVisibility(userAuthenticated ? View.VISIBLE : View.GONE);
         chatroomButton.setVisibility(userAuthenticated ? View.VISIBLE : View.GONE);
+
+        // Separator view 2 visibility
+        separatorView_2.setVisibility(userAuthenticated ? View.GONE : View.VISIBLE);
     }
 
     private void showMessage(String title, String message) {
