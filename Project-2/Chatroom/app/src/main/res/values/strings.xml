@@ -3,7 +3,7 @@
     <string name="main_activity_title">Chatroom</string>
     <string name="email_placeholder">email</string>
     <string name="password_placeholder">password</string>
-    <string name="nickname_placeholder">nickname</string>
+    <string name="nickname_placeholder">nickname (only for sign up)</string>
     <string name="AUTOFILL_HINT_EMAIL_ADDRESS">emailAddress</string>
     <string name="AUTOFILL_HINT_EMAIL_PASSWORD">password</string>
     <string name="signIn_btn_text">Sign in</string>
