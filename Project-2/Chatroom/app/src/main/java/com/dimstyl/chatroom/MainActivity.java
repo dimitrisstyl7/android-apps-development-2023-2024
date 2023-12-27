@@ -1,6 +1,7 @@
 package com.dimstyl.chatroom;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -143,6 +144,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void chatroom(View view) {
+        if (user != null) {
+            Intent intent = new Intent(this, ChatroomActivity.class);
+            intent.putExtra("uid", UID);
+            startActivity(intent);
+        } else {
+            showMessage("Error", "Something went wrong, please sign in again!");
+        }
     }
 
     private void setUserNickname(String nickname) {
