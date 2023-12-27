@@ -11,14 +11,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     private EditText emailEditText, passwordEditText, nicknameEditText;
     private Button signInButton, signUpButton, signOutButton, chatroomButton;
     private FirebaseAuth auth;
     private FirebaseUser user;
+    private FirebaseDatabase database;
+    private String UID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,11 +39,15 @@ public class MainActivity extends AppCompatActivity {
         signOutButton = findViewById(R.id.signOutButton);
         chatroomButton = findViewById(R.id.chatroomButton);
 
+        // Initialize Firebase Auth
         auth = FirebaseAuth.getInstance();
-        user = auth.getCurrentUser();
 
         // Check if user is authenticated and set buttons visibility accordingly
-        setButtonsVisibility(user != null);
+        user = auth.getCurrentUser();
+        setEditTextsAndButtonsVisibility(user != null);
+
+        // Initialize Firebase Realtime Database
+        database = FirebaseDatabase.getInstance();
     }
 
     public void signIn(View view) {
@@ -48,11 +58,21 @@ public class MainActivity extends AppCompatActivity {
             ).addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             user = auth.getCurrentUser();
-                            setButtonsVisibility(true);
+
+                            if (user == null) {
+                                showMessage("Error", "Something went wrong, try again!");
+                                auth.signOut();
+                                user = null;
+                                setEditTextsAndButtonsVisibility(false);
+                                return;
+                            }
+
+                            UID = user.getUid();
+                            setEditTextsAndButtonsVisibility(true);
                             showMessage("Success", "You are signed in!");
                         } else {
                             user = null;
-                            setButtonsVisibility(false);
+                            setEditTextsAndButtonsVisibility(false);
                             showMessage("Error", "Check your credentials!");
                         }
                     }
@@ -64,9 +84,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void signUp(View view) {
         if (editTextsNotEmpty(List.of(emailEditText, passwordEditText, nicknameEditText))) {
+            String email = emailEditText.getText().toString();
+            String password = passwordEditText.getText().toString();
+
+            // Create authenticated user
             auth.createUserWithEmailAndPassword(
-                            emailEditText.getText().toString(),
-                            passwordEditText.getText().toString()
+                            email,
+                            password
                     )
                     .addOnSuccessListener(authResult -> {
                                 user = auth.getCurrentUser();
@@ -75,19 +99,26 @@ public class MainActivity extends AppCompatActivity {
                                     showMessage("Error", "Something went wrong, contact support!");
                                     auth.signOut();
                                     user = null;
-                                    setButtonsVisibility(false);
+                                    setEditTextsAndButtonsVisibility(false);
                                     return;
                                 }
 
-                                updateUser(user, nicknameEditText.getText().toString());
-                                setButtonsVisibility(true);
+                                // Set authenticated user's nickname
+                                String nickname = nicknameEditText.getText().toString();
+                                setUserNickname(nickname);
+
+                                // Add user's uid, email and nickname to database (for future use - chatroom)
+                                UID = user.getUid();
+                                addUserToDatabase(email, nickname);
+
+                                setEditTextsAndButtonsVisibility(true);
                                 showMessage("Success", "User profile created!");
                             }
                     )
                     .addOnFailureListener(e -> {
                                 user = null;
-                                setButtonsVisibility(false);
-                                showMessage("Error", "Check your credentials!\nWarning: Password must be at least 6 characters long!");
+                                setEditTextsAndButtonsVisibility(false);
+                                showMessage("Error", "Check your credentials!\n\nWarning:\n\t> Password must be at least 6 characters long!\n\t> Email must not be already in use!");
                             }
                     );
         } else {
@@ -95,18 +126,26 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void addUserToDatabase(String email, String nickname) {
+        DatabaseReference reference = database.getReference().child("users").child(UID);
+        Map<String, Object> userData = new HashMap<>();
+        userData.put("email", email);
+        userData.put("nickname", nickname);
+        reference.setValue(userData);
+    }
+
     public void signOut(View view) {
         auth.signOut();
         user = null;
-        setButtonsVisibility(false);
+        setEditTextsAndButtonsVisibility(false);
         clearTextFields();
-        showMessage("Success", "You are signed out!");
+        showMessage("Success", "You are successfully signed out!");
     }
 
     public void chatroom(View view) {
     }
 
-    private void updateUser(FirebaseUser user, String nickname) {
+    private void setUserNickname(String nickname) {
         user.updateProfile(
                 new UserProfileChangeRequest.Builder()
                         .setDisplayName(nickname)
@@ -114,8 +153,13 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
-    private void setButtonsVisibility(boolean userAuthenticated) {
+    private void setEditTextsAndButtonsVisibility(boolean userAuthenticated) {
+        // Edit texts visibility
+        emailEditText.setVisibility(userAuthenticated ? View.GONE : View.VISIBLE);
+        passwordEditText.setVisibility(userAuthenticated ? View.GONE : View.VISIBLE);
         nicknameEditText.setVisibility(userAuthenticated ? View.GONE : View.VISIBLE);
+
+        // Buttons visibility
         signInButton.setVisibility(userAuthenticated ? View.GONE : View.VISIBLE);
         signUpButton.setVisibility(userAuthenticated ? View.GONE : View.VISIBLE);
         signOutButton.setVisibility(userAuthenticated ? View.VISIBLE : View.GONE);
