@@ -34,7 +34,7 @@ public class FirebaseUtil {
                 password
         ).addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        if (getUser() == null) {
+                        if (getUser() == null || getNickname() == null) {
                             activity.showMessage("Error", "Something went wrong, please try again.");
                             signOut();
                             return;
@@ -66,7 +66,6 @@ public class FirebaseUtil {
                             addUserToDatabase(email, nickname);
 
                             activity.showMessage("Success", "User profile created successfully!");
-                            activity.openChatroom();
                         }
                 )
                 .addOnFailureListener(e -> {
