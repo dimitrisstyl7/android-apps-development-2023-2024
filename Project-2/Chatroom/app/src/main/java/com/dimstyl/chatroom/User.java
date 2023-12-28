@@ -3,9 +3,6 @@ package com.dimstyl.chatroom;
 public class User {
     private String uid, email, nickname;
 
-    public User() {
-    }
-
     public User(String uid, String email, String nickname) {
         this.uid = uid;
         this.email = email;
@@ -34,5 +31,14 @@ public class User {
 
     void setNickname(String nickname) {
         this.nickname = nickname;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "uid='" + uid + '\'' +
+                ", email='" + email + '\'' +
+                ", nickname='" + nickname + '\'' +
+                '}';
     }
 }
