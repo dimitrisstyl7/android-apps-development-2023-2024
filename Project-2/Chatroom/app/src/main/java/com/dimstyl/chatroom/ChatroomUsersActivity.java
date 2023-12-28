@@ -1,14 +1,13 @@
 package com.dimstyl.chatroom;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 
-public class ChatroomActivity extends AppCompatActivity {
+import androidx.appcompat.app.AppCompatActivity;
 
+public class ChatroomUsersActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chatroom);
+        setContentView(R.layout.activity_chatroom_users);
     }
 }
