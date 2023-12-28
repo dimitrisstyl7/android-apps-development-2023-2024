@@ -77,7 +77,6 @@
         android:id="@+id/signOutButton"
         android:layout_width="115dp"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/btn_color"
         android:onClick="signOut"
         android:text="@string/signOut_btn_text"
         android:textSize="16sp"
