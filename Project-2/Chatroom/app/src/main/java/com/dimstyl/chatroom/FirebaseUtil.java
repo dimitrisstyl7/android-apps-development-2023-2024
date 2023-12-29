@@ -107,9 +107,12 @@ public class FirebaseUtil {
                         Object nicknameObj = child.child("nickname").getValue();
 
                         if (uid == null || emailObj == null || nicknameObj == null) {
-                            signOut();
-                            activity.finish();
-                            activity.showMessage("Error", "Something went wrong, please sign in again.");
+                            // Skip user with missing data
+                            return;
+                        }
+
+                        if (getUid().equals(uid)) {
+                            // Skip current user
                             return;
                         }
 
