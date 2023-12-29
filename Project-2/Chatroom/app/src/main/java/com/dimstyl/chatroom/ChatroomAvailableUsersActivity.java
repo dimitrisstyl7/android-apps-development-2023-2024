@@ -50,6 +50,13 @@ public class ChatroomAvailableUsersActivity extends AppCompatActivity {
     }
 
     private void fillLinearLayout() {
+        // Add button for chat with all users
+        addUserToLinearLayout(null);
+
+        // Add button for chat with current user (himself)
+        addUserToLinearLayout(new User(FirebaseUtil.getUid(), FirebaseUtil.getEmail(), FirebaseUtil.getNickname()));
+
+        // Add button for each registered user (except current user)
         FirebaseUtil.getAllUsers(this);
     }
 
