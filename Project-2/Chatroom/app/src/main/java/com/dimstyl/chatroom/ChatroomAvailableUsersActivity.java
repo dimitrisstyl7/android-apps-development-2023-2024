@@ -61,12 +61,31 @@ public class ChatroomAvailableUsersActivity extends AppCompatActivity {
     }
 
     void addUserToLinearLayout(User user) {
-        // Add user to users list
-        users.add(user);
+        // If null is passed as user, means button for chat with all users
+        if (user != null) {
+            // Add user to users list
+            users.add(user);
+        }
 
         // Create new button
+        Button button = createButton(user);
+
+        // Add button to LinearLayout
+        usersLinearLayout.addView(button);
+    }
+
+    private Button createButton(User user) {
+        // Create new button
         Button button = new Button(this);
-        button.setId(users.size());
+
+        if (user == null) {
+            // Button for chat with all users
+            button.setId(-1);
+        } else {
+            // Button for chat with specific user
+            int id = users.size() == 0 ? 0 : users.size() - 1;
+            button.setId(id);
+        }
 
         // Set button text alignment, text size and background color
         button.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
@@ -87,16 +106,32 @@ public class ChatroomAvailableUsersActivity extends AppCompatActivity {
         button.setLayoutParams(marginParams);
 
         // Set button text
-        button.setAllCaps(false);
-        button.setText(user.getNickname());
+        if (user == null) {
+            // Button for chat with all users
+            button.setText(getString(R.string.chat_with_all_users));
+        } else if (FirebaseUtil.getUid().equals(user.getUid())) {
+            // Button for chat with current user (himself)
+            button.setText(getString(R.string.chat_with_my_self, user.getNickname()));
+        } else {
+            // Button for chat with specific user
+            button.setText(user.getNickname());
+        }
 
-        // set OnclickListener
+        // Disable button all caps
+        button.setAllCaps(false);
+
+        // set what happens when button is clicked
         button.setOnClickListener(view -> {
-            showMessage("User info", user.toString());
+            if (user == null) {
+                // Button for chat with all users
+                showMessage("Chat with all users", "Not implemented yet");
+            } else {
+                // Button for chat with specific user
+                showMessage("Chat with specific user", users.get(button.getId()).toString());
+            }
         });
 
-        // Add button to LinearLayout
-        usersLinearLayout.addView(button);
+        return button;
     }
 
     void showMessage(String title, String message) {
