@@ -22,7 +22,7 @@
         app:layout_constraintVertical_bias="0.021" />
 
     <View
-        android:id="@+id/separatorLineView"
+        android:id="@+id/separatorLineView_2"
         android:layout_width="0dp"
         android:layout_height="10dp"
         android:background="@color/white"
@@ -43,7 +43,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/separatorLineView"
+        app:layout_constraintTop_toBottomOf="@+id/separatorLineView_2"
         app:layout_constraintVertical_bias="0.019" />
 
     <ScrollView
