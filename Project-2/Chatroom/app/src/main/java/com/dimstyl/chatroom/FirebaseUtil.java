@@ -28,6 +28,10 @@ public class FirebaseUtil {
         return getUser().getDisplayName();
     }
 
+    static String getEmail() {
+        return getUser().getEmail();
+    }
+
     static void signIn(String email, String password, MainActivity activity) {
         auth.signInWithEmailAndPassword(
                 email,
