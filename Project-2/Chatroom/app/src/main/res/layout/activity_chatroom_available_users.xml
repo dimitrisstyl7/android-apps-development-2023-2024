@@ -12,7 +12,7 @@
         android:id="@+id/userNicknameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/main_activity_title_color"
+        android:textColor="@color/purple"
         android:textSize="26sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

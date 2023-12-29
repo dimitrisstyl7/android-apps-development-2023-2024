@@ -2,7 +2,7 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="purple">#6750A3</color>
     <color name="activity_bg_color">#95BF8F</color>
     <color name="placeholder_color">#263238</color>
-    <color name="main_activity_title_color">#6750A3</color>
 </resources>
