@@ -21,7 +21,7 @@ public class AvailableUsersActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chatroom_available_users);
+        setContentView(R.layout.activity_available_users);
 
         users = new ArrayList<>();
         String uid = getIntent().getStringExtra("uid");
