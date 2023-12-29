@@ -37,11 +37,14 @@ public class ChatroomAvailableUsersActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        FirebaseUtil.signOut();
-        finish();
+        signOut();
     }
 
     public void signOut(View view) {
+        signOut();
+    }
+
+    void signOut() {
         FirebaseUtil.signOut();
         finish();
     }
