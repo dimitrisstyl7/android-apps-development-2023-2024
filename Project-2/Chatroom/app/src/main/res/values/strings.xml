@@ -10,6 +10,6 @@
     <string name="signUp_btn_text">Sign up</string>
     <string name="signOut_btn_text">Sign out</string>
     <string name="chatroom_btn_text">Open chatroom</string>
-    <string name="scroll_view_title">Choose a user to chat with</string>
+    <string name="scroll_view_title">Chat with</string>
     <string name="signed_in_as">Signed in as %s</string>
 </resources>
