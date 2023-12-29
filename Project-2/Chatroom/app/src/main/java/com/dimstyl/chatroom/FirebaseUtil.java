@@ -93,4 +93,33 @@ public class FirebaseUtil {
         userData.put("nickname", nickname);
         reference.setValue(userData);
     }
+
+    static void getAllUsers(ChatroomAvailableUsersActivity activity) {
+        DatabaseReference reference = database.getReference().child("users");
+        reference.get().addOnSuccessListener(dataSnapshot -> {
+                    dataSnapshot.getChildren().forEach(child -> {
+                        String uid = child.getKey();
+                        Object emailObj = child.child("email").getValue();
+                        Object nicknameObj = child.child("nickname").getValue();
+
+                        if (uid == null || emailObj == null || nicknameObj == null) {
+                            signOut();
+                            activity.finish();
+                            activity.showMessage("Error", "Something went wrong, please sign in again.");
+                            return;
+                        }
+
+                        // Add user to LinearLayout
+                        String email = emailObj.toString();
+                        String nickname = nicknameObj.toString();
+                        User user = new User(uid, email, nickname);
+                        activity.addUserToLinearLayout(user);
+                    });
+                })
+                .addOnFailureListener(e -> {
+                    signOut();
+                    activity.finish();
+                    activity.showMessage("Error", "Something went wrong, please sign in again.");
+                });
+    }
 }
