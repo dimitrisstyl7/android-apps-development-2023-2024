@@ -13,6 +13,9 @@
         android:theme="@style/Theme.Chatroom"
         tools:targetApi="31">
         <activity
+            android:name=".ChatroomActivity"
+            android:exported="false" />
+        <activity
             android:name=".AvailableUsersActivity"
             android:exported="false" />
         <activity
