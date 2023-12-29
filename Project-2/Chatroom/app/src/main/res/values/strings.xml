@@ -12,4 +12,6 @@
     <string name="chatroom_btn_text">Open chatroom</string>
     <string name="scroll_view_title">Chat with</string>
     <string name="signed_in_as">Signed in as %s</string>
+    <string name="chat_with_my_self">%s (you)</string>
+    <string name="chat_with_all_users">Everyone</string>
 </resources>
