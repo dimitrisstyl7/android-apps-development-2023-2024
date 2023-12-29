@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChatroomAvailableUsersActivity extends AppCompatActivity {
+public class AvailableUsersActivity extends AppCompatActivity {
     private LinearLayout usersLinearLayout;
     private List<User> users;
 

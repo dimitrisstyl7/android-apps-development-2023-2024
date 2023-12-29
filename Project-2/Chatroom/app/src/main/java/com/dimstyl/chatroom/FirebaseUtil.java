@@ -98,7 +98,7 @@ public class FirebaseUtil {
         reference.setValue(userData);
     }
 
-    static void getAllUsers(ChatroomAvailableUsersActivity activity) {
+    static void getAllUsers(AvailableUsersActivity activity) {
         DatabaseReference reference = database.getReference().child("users");
         reference.get().addOnSuccessListener(dataSnapshot -> {
                     dataSnapshot.getChildren().forEach(child -> {
