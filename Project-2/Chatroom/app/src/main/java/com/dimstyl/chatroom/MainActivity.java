@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
                 .setTitle(title)
                 .setMessage(message)
                 .setCancelable(true)
+                .setPositiveButton("OK", null)
                 .show();
     }
 
