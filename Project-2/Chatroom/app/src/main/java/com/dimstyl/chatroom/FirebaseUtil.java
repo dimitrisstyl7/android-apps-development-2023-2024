@@ -20,7 +20,7 @@ public class FirebaseUtil {
         return auth.getCurrentUser();
     }
 
-    static String getUID() {
+    static String getUid() {
         return getUser().getUid();
     }
 
