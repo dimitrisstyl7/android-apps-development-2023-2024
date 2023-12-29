@@ -24,8 +24,7 @@ public class AvailableUsersActivity extends AppCompatActivity {
         setContentView(R.layout.activity_available_users);
 
         users = new ArrayList<>();
-        String uid = getIntent().getStringExtra("uid");
-        String nickname = getIntent().getStringExtra("nickname");
+        String nickname = FirebaseUtil.getNickname();
 
         TextView userNicknameTextView = findViewById(R.id.userNicknameTextView);
         userNicknameTextView.setText(getString(R.string.signed_in_as, nickname));
