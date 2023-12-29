@@ -117,9 +117,8 @@ public class FirebaseUtil {
                     });
                 })
                 .addOnFailureListener(e -> {
-                    signOut();
-                    activity.finish();
                     activity.showMessage("Error", "Something went wrong, please sign in again.");
+                    activity.signOut();
                 });
     }
 }
