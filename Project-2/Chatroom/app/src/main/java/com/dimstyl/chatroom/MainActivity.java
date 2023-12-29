@@ -62,10 +62,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void openChatroom() {
-        Intent intent = new Intent(this, AvailableUsersActivity.class);
-        intent.putExtra("uid", FirebaseUtil.getUid());
-        intent.putExtra("nickname", FirebaseUtil.getNickname());
-        startActivity(intent);
+        startActivity(new Intent(this, AvailableUsersActivity.class));
     }
 
     void showMessage(String title, String message) {
