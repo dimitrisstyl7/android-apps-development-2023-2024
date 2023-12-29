@@ -49,6 +49,12 @@ public class MainActivity extends AppCompatActivity {
             String email = emailEditText.getText().toString();
             String password = passwordEditText.getText().toString();
             String nickname = nicknameEditText.getText().toString();
+
+            if (!nicknameLengthConstraint(nickname)) {
+                showMessage("Error", "Nickname must be between 3 and 15 characters long!");
+                return;
+            }
+
             FirebaseUtil.signUp(email, password, nickname, this);
         } else {
             showMessage("Error", "Please provide all info!");
@@ -80,5 +86,9 @@ public class MainActivity extends AppCompatActivity {
         emailEditText.setText("");
         passwordEditText.setText("");
         nicknameEditText.setText("");
+    }
+
+    private boolean nicknameLengthConstraint(String nickname) {
+        return nickname.length() >= 3 && nickname.length() <= 15;
     }
 }
