@@ -32,6 +32,10 @@ public class FirebaseUtil {
         return getUser().getEmail();
     }
 
+    static boolean isSignedIn() {
+        return getUser() != null;
+    }
+
     static void signIn(String email, String password, MainActivity activity) {
         auth.signInWithEmailAndPassword(
                 email,
