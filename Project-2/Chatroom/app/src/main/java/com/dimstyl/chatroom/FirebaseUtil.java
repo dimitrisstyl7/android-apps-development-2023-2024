@@ -16,6 +16,8 @@ public class FirebaseUtil {
     // Initialize Firebase Realtime Database
     private static final FirebaseDatabase database = FirebaseDatabase.getInstance();
 
+    static final String chatWithEveryone = "everyone";
+
     static FirebaseUser getUser() {
         return auth.getCurrentUser();
     }
