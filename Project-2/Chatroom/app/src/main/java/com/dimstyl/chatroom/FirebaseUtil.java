@@ -63,19 +63,28 @@ public class FirebaseUtil {
                         password
                 )
                 .addOnSuccessListener(authResult -> {
-                            if (getUser() == null) {
-                                activity.showMessage("Error", "Something went wrong, contact support!");
+                            // Set authenticated user's nickname
+                            setUserNickname(nickname);
+
+                            // Add user's uid, email and nickname to database (for future use - available users activity)
+                            addUserToDatabase(email, nickname);
+
+                            if (!isSignedIn()) {
+                                activity.showMessage("Error", "Something went wrong, please try again.");
                                 signOut();
                                 return;
                             }
 
-                            // Set authenticated user's nickname
-                            setUserNickname(nickname);
+                            while (getNickname() == null) {
+                                // Wait for nickname to be updated
+                            }
 
-                            // Add user's uid, email and nickname to database (for future use - chatroom)
-                            addUserToDatabase(email, nickname);
-
-                            activity.showMessage("Success", "User profile created successfully!");
+                            activity.showMessage("Success", "User profile created successfully!",
+                                    "Go to chatroom", (dialog, which) -> {
+                                        // Open available users activity
+                                        activity.openAvailableUsersActivity();
+                                    },
+                                    "Close", (dialog, which) -> signOut());
                         }
                 )
                 .addOnFailureListener(e -> {
