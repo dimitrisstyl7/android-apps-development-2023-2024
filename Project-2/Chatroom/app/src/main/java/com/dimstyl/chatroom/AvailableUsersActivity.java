@@ -137,8 +137,6 @@ public class AvailableUsersActivity extends AppCompatActivity {
         new AlertDialog.Builder(this)
                 .setTitle(title)
                 .setMessage(message)
-                .setCancelable(true)
-                .setPositiveButton("OK", null)
-                .show();
+                .setCancelable(true);
     }
 }

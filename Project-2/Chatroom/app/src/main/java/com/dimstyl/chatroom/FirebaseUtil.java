@@ -130,7 +130,7 @@ public class FirebaseUtil {
                     });
                 })
                 .addOnFailureListener(e -> {
-                    activity.showMessage("Error", "Something went wrong, please sign in again.");
+                    activity.showMessage("Error", "Something went wrong, please try again.");
                     activity.signOut();
                 });
     }
