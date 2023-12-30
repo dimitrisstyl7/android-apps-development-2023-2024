@@ -22,9 +22,9 @@ public class MainActivity extends AppCompatActivity {
         passwordEditText = findViewById(R.id.passwordEditText);
         nicknameEditText = findViewById(R.id.nicknameEditText);
 
-        // if user is authenticated, open chatroom
-        if (FirebaseUtil.getUser() != null) {
-            openChatroom();
+        // if user is signed in, open available users activity
+        if (FirebaseUtil.isSignedIn()) {
+            openAvailableUsersActivity();
         }
     }
 
