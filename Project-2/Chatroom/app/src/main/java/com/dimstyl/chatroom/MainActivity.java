@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    void openChatroom() {
+    void openAvailableUsersActivity() {
         startActivity(new Intent(this, AvailableUsersActivity.class));
     }
 
