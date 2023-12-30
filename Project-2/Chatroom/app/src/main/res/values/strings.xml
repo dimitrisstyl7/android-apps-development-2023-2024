@@ -15,4 +15,5 @@
     <string name="chat_with_my_self">%s (you)</string>
     <string name="chat_with_all_users">Everyone</string>
     <string name="send_btn_text">Send</string>
+    <string name="message_placeholder">Type a message</string>
 </resources>
