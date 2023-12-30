@@ -118,6 +118,7 @@ public class AvailableUsersActivity extends AppCompatActivity {
         new AlertDialog.Builder(this)
                 .setTitle(title)
                 .setMessage(message)
-                .setCancelable(true);
+                .setCancelable(true)
+                .show();
     }
 }
