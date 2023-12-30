@@ -11,20 +11,13 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class AvailableUsersActivity extends AppCompatActivity {
     private LinearLayout usersLinearLayout;
-    private List<User> users;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_available_users);
-
-        users = new ArrayList<>();
-        String nickname = FirebaseUtil.getNickname();
 
         TextView userNicknameTextView = findViewById(R.id.userNicknameTextView);
         userNicknameTextView.setText(getString(R.string.signed_in_as, FirebaseUtil.getNickname()));
@@ -60,12 +53,6 @@ public class AvailableUsersActivity extends AppCompatActivity {
     }
 
     void addUserToLinearLayout(User user) {
-        // If null is passed as user, means button for chat with all users
-        if (user != null) {
-            // Add user to users list
-            users.add(user);
-        }
-
         // Create new button
         Button button = createButton(user);
 
@@ -76,15 +63,6 @@ public class AvailableUsersActivity extends AppCompatActivity {
     private Button createButton(User user) {
         // Create new button
         Button button = new Button(this);
-
-        if (user == null) {
-            // Button for chat with all users
-            button.setId(-1);
-        } else {
-            // Button for chat with specific user
-            int id = users.size() == 0 ? 0 : users.size() - 1;
-            button.setId(id);
-        }
 
         // Set button text alignment, text size and background color
         button.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
@@ -126,7 +104,8 @@ public class AvailableUsersActivity extends AppCompatActivity {
                 showMessage("Chat with all users", "Not implemented yet");
             } else {
                 // Button for chat with specific user
-                showMessage("Chat with specific user", users.get(button.getId()).toString());
+                intent.putExtra("receiverUid", user.getUid());
+                startActivity(intent);
             }
         });
 
