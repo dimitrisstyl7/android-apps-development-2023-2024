@@ -1,6 +1,7 @@
 package com.dimstyl.chatroom;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -69,8 +70,18 @@ public class MainActivity extends AppCompatActivity {
         new AlertDialog.Builder(this)
                 .setTitle(title)
                 .setMessage(message)
-                .setCancelable(true)
-                .setPositiveButton("OK", null)
+                .setCancelable(true);
+    }
+
+    void showMessage(String title, String message,
+                     String positiveButtonText, DialogInterface.OnClickListener onClickListenerForPositiveButton,
+                     String negativeButtonText, DialogInterface.OnClickListener onClickListenerForNegativeButton) {
+        new AlertDialog.Builder(this)
+                .setTitle(title)
+                .setMessage(message)
+                .setCancelable(false)
+                .setPositiveButton(positiveButtonText, onClickListenerForPositiveButton)
+                .setNegativeButton(negativeButtonText, onClickListenerForNegativeButton)
                 .show();
     }
 
