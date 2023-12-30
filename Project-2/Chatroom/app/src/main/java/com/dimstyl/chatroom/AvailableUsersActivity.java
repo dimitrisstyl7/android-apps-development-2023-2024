@@ -1,6 +1,7 @@
 package com.dimstyl.chatroom;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
@@ -99,16 +100,17 @@ public class AvailableUsersActivity extends AppCompatActivity {
 
         // set what happens when button is clicked
         button.setOnClickListener(view -> {
+            Intent intent = new Intent(this, ChatroomActivity.class);
             if (user == null) {
                 // Button for chat with all users
-                showMessage("Chat with all users", "Not implemented yet");
+                intent.putExtra("receiverUid", FirebaseUtil.chatWithEveryone);
+                startActivity(intent);
             } else {
                 // Button for chat with specific user
                 intent.putExtra("receiverUid", user.getUid());
                 startActivity(intent);
             }
         });
-
         return button;
     }
 
