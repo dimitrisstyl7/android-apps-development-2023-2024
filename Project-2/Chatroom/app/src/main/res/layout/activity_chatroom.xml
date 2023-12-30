@@ -68,6 +68,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:ems="10"
+        android:hint="@string/message_placeholder"
+        android:importantForAutofill="no"
         android:inputType="text"
         android:textColor="@color/black"
         android:textColorHint="@color/placeholder_color"
