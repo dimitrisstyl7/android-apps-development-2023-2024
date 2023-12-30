@@ -70,7 +70,8 @@ public class MainActivity extends AppCompatActivity {
         new AlertDialog.Builder(this)
                 .setTitle(title)
                 .setMessage(message)
-                .setCancelable(true);
+                .setCancelable(true)
+                .show();
     }
 
     void showMessage(String title, String message,
