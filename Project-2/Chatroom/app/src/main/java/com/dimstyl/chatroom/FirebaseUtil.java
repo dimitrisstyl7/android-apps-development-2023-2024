@@ -42,12 +42,12 @@ public class FirebaseUtil {
                 password
         ).addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        if (getUser() == null || getNickname() == null) {
+                        if (!isSignedIn() || getNickname() == null) {
                             activity.showMessage("Error", "Something went wrong, please try again.");
                             signOut();
                             return;
                         }
-                        activity.openChatroom();
+                        activity.openAvailableUsersActivity();
                     } else {
                         activity.showMessage("Error", "Please check your credentials.");
                     }
