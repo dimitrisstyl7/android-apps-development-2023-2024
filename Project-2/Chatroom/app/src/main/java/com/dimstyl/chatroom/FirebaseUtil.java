@@ -76,8 +76,8 @@ public class FirebaseUtil {
                             addUserToDatabase(email, nickname);
 
                             if (!isSignedIn()) {
-                                activity.showMessage("Error", "Something went wrong, please try again.");
-                                signOut();
+                                // If for a reason user is not signed in after successful sign up, show success sign up message and return.
+                                activity.showMessage("Success", "User profile created successfully! You can now sign in.");
                                 return;
                             }
 
