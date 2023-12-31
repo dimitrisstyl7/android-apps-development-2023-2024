@@ -104,10 +104,12 @@ public class AvailableUsersActivity extends AppCompatActivity {
             Intent intent = new Intent(this, ChatroomActivity.class);
             if (user == null) {
                 // Button for chat with all users
-                intent.putExtra("receiverUid", FirebaseUtil.chatWithEveryone);
+                intent.putExtra("receiverNickname", FirebaseUtil.EVERYONE);
+                intent.putExtra("receiverUid", FirebaseUtil.EVERYONE);
                 startActivity(intent);
             } else {
                 // Button for chat with specific user
+                intent.putExtra("receiverNickname", user.getNickname());
                 intent.putExtra("receiverUid", user.getUid());
                 startActivity(intent);
             }
