@@ -51,7 +51,7 @@ public class FirebaseUtil {
         ).addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         if (!isSignedIn() || getNickname() == null) {
-                            activity.showMessage("Error", "Something went wrong, please try again.");
+                            activity.showMessage("Oops...", "Something went wrong, please sign in again.");
                             signOut();
                             return;
                         }
