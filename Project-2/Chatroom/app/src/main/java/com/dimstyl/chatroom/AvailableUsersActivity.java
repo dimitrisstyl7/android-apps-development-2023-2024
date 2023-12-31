@@ -28,9 +28,10 @@ public class AvailableUsersActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        signOut();
+    protected void onRestart() {
+        super.onRestart();
+        usersLinearLayout.removeAllViews();
+        fillLinearLayout();
     }
 
     public void signOut(View view) {
