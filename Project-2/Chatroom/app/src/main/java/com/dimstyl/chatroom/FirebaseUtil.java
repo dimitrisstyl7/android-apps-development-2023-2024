@@ -111,7 +111,7 @@ public class FirebaseUtil {
     }
 
     private static void addUserToDatabase(String email, String nickname) {
-        DatabaseReference reference = database.getReference().child("users").child(getUid());
+        DatabaseReference reference = database.getReference().child(USERS).child(getUid());
         Map<String, String> userData = new HashMap<>();
         userData.put(EMAIL, email);
         userData.put(NICKNAME, nickname);
