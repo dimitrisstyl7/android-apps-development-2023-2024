@@ -9,17 +9,17 @@
     tools:context=".ChatroomActivity">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/chattingWithTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/purple"
-        android:textSize="22sp"
+        android:textSize="26sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.044"
+        app:layout_constraintHorizontal_bias="0.038"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.022" />
+        app:layout_constraintVertical_bias="0.021" />
 
     <View
         android:id="@+id/separatorLineView_3"
@@ -31,7 +31,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/chattingWithTextView"
         app:layout_constraintVertical_bias="0.0" />
 
     <ScrollView
@@ -57,7 +57,7 @@
         android:id="@+id/sendButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="4dp"
         android:layout_marginBottom="16dp"
         android:text="@string/send_btn_text"
         android:textSize="16sp"
@@ -82,6 +82,6 @@
         app:layout_constraintEnd_toStartOf="@+id/sendButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/chatScrollView"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
