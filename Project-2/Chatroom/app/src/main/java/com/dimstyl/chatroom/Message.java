@@ -1,23 +1,20 @@
 package com.dimstyl.chatroom;
 
 public class Message {
-    private final String senderUid;
-    private final String receiverUid;
-    private final String text;
-    private final String timestamp;
+    private final String senderUid, receiverUid, text, timestamp;
+
+    public Message() {
+        this.senderUid = null;
+        this.receiverUid = null;
+        this.text = null;
+        this.timestamp = null;
+    }
 
     public Message(String senderUid, String receiverUid, String text, String timestamp) {
         this.senderUid = senderUid;
         this.receiverUid = receiverUid;
         this.text = text;
         this.timestamp = timestamp;
-    }
-
-    public Message(String senderUid, String receiverUid, String text) {
-        this.senderUid = senderUid;
-        this.receiverUid = receiverUid;
-        this.text = text;
-        this.timestamp = null;
     }
 
     public String getSenderUid() {
