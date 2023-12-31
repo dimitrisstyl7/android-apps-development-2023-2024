@@ -49,7 +49,7 @@ public class FirebaseUtil {
                             signOut();
                             return;
                         }
-                        activity.openAvailableUsersActivity();
+                        activity.startAvailableUsersActivity();
                     } else {
                         activity.showMessage("Error", "Please check your credentials.");
                     }
@@ -81,8 +81,7 @@ public class FirebaseUtil {
 
                             activity.showMessage("Success", "User profile created successfully!",
                                     "Go to chatroom", (dialog, which) -> {
-                                        // Open available users activity
-                                        activity.openAvailableUsersActivity();
+                                        activity.startAvailableUsersActivity();
                                     },
                                     "Close", (dialog, which) -> signOut());
                         }

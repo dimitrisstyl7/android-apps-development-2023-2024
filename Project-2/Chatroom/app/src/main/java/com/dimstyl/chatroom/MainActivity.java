@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
         // if user is signed in, open available users activity
         if (FirebaseUtil.isSignedIn()) {
-            openAvailableUsersActivity();
+            startAvailableUsersActivity();
         }
     }
 
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    void openAvailableUsersActivity() {
+    void startAvailableUsersActivity() {
         startActivity(new Intent(this, AvailableUsersActivity.class));
     }
 
