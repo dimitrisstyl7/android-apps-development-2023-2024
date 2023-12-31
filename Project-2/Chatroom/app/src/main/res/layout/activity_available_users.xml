@@ -5,7 +5,7 @@
     android:id="@+id/available_users_activity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/activity_bg_color"
+    android:background="@color/green"
     tools:context=".AvailableUsersActivity">
 
     <TextView
@@ -61,7 +61,7 @@
             android:id="@+id/usersLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"/>
+            android:orientation="vertical" />
     </ScrollView>
 
     <Button
