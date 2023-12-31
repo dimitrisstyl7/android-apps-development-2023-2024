@@ -11,21 +11,22 @@ import java.util.Map;
 
 public class FirebaseUtil {
     // Initialize Firebase Authentication
-    private static final FirebaseAuth auth = FirebaseAuth.getInstance();
+    private static final FirebaseAuth AUTH = FirebaseAuth.getInstance();
 
     // Initialize Firebase Realtime Database
-    private static final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private static final FirebaseDatabase DATABASE = FirebaseDatabase.getInstance();
 
     static final String USERS = "users";
-
     static final String EMAIL = "email";
-
     static final String NICKNAME = "nickname";
-
     static final String EVERYONE = "everyone";
+    static final String MESSAGES = "messages";
+    static final String SENDER_UID = "senderUid";
+    static final String RECEIVER_UID = "receiverUid";
+    static final String MESSAGE_TEXT = "text";
 
     static FirebaseUser getUser() {
-        return auth.getCurrentUser();
+        return AUTH.getCurrentUser();
     }
 
     static String getUid() {
@@ -45,7 +46,7 @@ public class FirebaseUtil {
     }
 
     static void signIn(String email, String password, MainActivity activity) {
-        auth.signInWithEmailAndPassword(
+        AUTH.signInWithEmailAndPassword(
                 email,
                 password
         ).addOnCompleteListener(task -> {
@@ -64,7 +65,7 @@ public class FirebaseUtil {
     }
 
     static void signUp(String email, String password, String nickname, MainActivity activity) {
-        auth.createUserWithEmailAndPassword(
+        AUTH.createUserWithEmailAndPassword(
                         email,
                         password
                 )
@@ -99,7 +100,7 @@ public class FirebaseUtil {
     }
 
     static void signOut() {
-        auth.signOut();
+        AUTH.signOut();
     }
 
     private static void setUserNickname(String nickname) {
@@ -111,7 +112,7 @@ public class FirebaseUtil {
     }
 
     private static void addUserToDatabase(String email, String nickname) {
-        DatabaseReference reference = database.getReference().child(USERS).child(getUid());
+        DatabaseReference reference = DATABASE.getReference().child(USERS).child(getUid());
         Map<String, String> userData = new HashMap<>();
         userData.put(EMAIL, email);
         userData.put(NICKNAME, nickname);
@@ -119,8 +120,9 @@ public class FirebaseUtil {
     }
 
     static void getAllUsers(AvailableUsersActivity activity) {
-        DatabaseReference reference = database.getReference().child(USERS);
-        reference.get().addOnSuccessListener(dataSnapshot ->
+        DatabaseReference reference = DATABASE.getReference().child(USERS);
+        reference.get()
+                .addOnSuccessListener(dataSnapshot ->
                         dataSnapshot.getChildren().forEach(child -> {
                             String uid = child.getKey();
                             Object emailObj = child.child(EMAIL).getValue();
