@@ -124,29 +124,32 @@ public class FirebaseUtil {
         reference.get()
                 .addOnSuccessListener(dataSnapshot ->
                         dataSnapshot.getChildren().forEach(child -> {
-                            String uid = child.getKey();
-                            Object emailObj = child.child(EMAIL).getValue();
-                            Object nicknameObj = child.child(NICKNAME).getValue();
+                                    String uid = child.getKey();
+                                    Object emailObj = child.child(EMAIL).getValue();
+                                    Object nicknameObj = child.child(NICKNAME).getValue();
 
-                            if (uid == null || emailObj == null || nicknameObj == null) {
-                                // Skip user with missing data
-                                return;
-                            }
+                                    if (uid == null || emailObj == null || nicknameObj == null) {
+                                        // Skip user with missing data
+                                        return;
+                                    }
 
-                            if (getUid().equals(uid)) {
-                                // Skip current user
-                                return;
-                            }
+                                    if (getUid().equals(uid)) {
+                                        // Skip current user
+                                        return;
+                                    }
 
-                            // Add user to LinearLayout
-                            String email = emailObj.toString();
-                            String nickname = nicknameObj.toString();
-                            User user = new User(uid, email, nickname);
-                            activity.addUserToLinearLayout(user);
-                        }))
+                                    // Add user to LinearLayout
+                                    String email = emailObj.toString();
+                                    String nickname = nicknameObj.toString();
+                                    User user = new User(uid, email, nickname);
+                                    activity.addUserToLinearLayout(user);
+                                }
+                        )
+                )
                 .addOnFailureListener(e -> {
-                    activity.showMessage("Error", "Something went wrong, please try again.");
-                    activity.signOut();
-                });
+                            activity.showMessage("Oops...", "Something went wrong, please try again.");
+                            activity.signOut();
+                        }
+                );
     }
 }
