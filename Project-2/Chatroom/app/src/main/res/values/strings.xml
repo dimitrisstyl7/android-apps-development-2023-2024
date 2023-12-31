@@ -16,4 +16,5 @@
     <string name="chat_with_all_users">Everyone</string>
     <string name="send_btn_text">Send</string>
     <string name="message_placeholder">Type a message</string>
+    <string name="chatting_with">Chatting with %s</string>
 </resources>
