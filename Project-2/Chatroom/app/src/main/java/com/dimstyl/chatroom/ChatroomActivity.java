@@ -33,4 +33,13 @@ public class ChatroomActivity extends AppCompatActivity {
                 .setCancelable(true)
                 .show();
     }
+
+    void showMessage(String title, String message, String neutralButtonText, DialogInterface.OnClickListener onClickListenerForNeutralButton) {
+        new AlertDialog.Builder(this)
+                .setTitle(title)
+                .setMessage(message)
+                .setCancelable(false)
+                .setNeutralButton(neutralButtonText, onClickListenerForNeutralButton)
+                .show();
+    }
 }
