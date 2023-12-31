@@ -1,7 +1,7 @@
 package com.dimstyl.chatroom;
 
 public class User {
-    private String uid, email, nickname;
+    private final String uid, email, nickname;
 
     public User(String uid, String email, String nickname) {
         this.uid = uid;
@@ -13,32 +13,11 @@ public class User {
         return uid;
     }
 
-    void setUid(String uid) {
-        this.uid = uid;
-    }
-
     String getEmail() {
         return email;
     }
 
-    void setEmail(String email) {
-        this.email = email;
-    }
-
     String getNickname() {
         return nickname;
-    }
-
-    void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "uid='" + uid + '\'' +
-                ", email='" + email + '\'' +
-                ", nickname='" + nickname + '\'' +
-                '}';
     }
 }
