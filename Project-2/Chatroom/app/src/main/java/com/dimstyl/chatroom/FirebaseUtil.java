@@ -16,7 +16,13 @@ public class FirebaseUtil {
     // Initialize Firebase Realtime Database
     private static final FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-    static final String chatWithEveryone = "everyone";
+    static final String USERS = "users";
+
+    static final String EMAIL = "email";
+
+    static final String NICKNAME = "nickname";
+
+    static final String EVERYONE = "everyone";
 
     static FirebaseUser getUser() {
         return auth.getCurrentUser();
@@ -107,18 +113,18 @@ public class FirebaseUtil {
     private static void addUserToDatabase(String email, String nickname) {
         DatabaseReference reference = database.getReference().child("users").child(getUid());
         Map<String, String> userData = new HashMap<>();
-        userData.put("email", email);
-        userData.put("nickname", nickname);
+        userData.put(EMAIL, email);
+        userData.put(NICKNAME, nickname);
         reference.setValue(userData);
     }
 
     static void getAllUsers(AvailableUsersActivity activity) {
-        DatabaseReference reference = database.getReference().child("users");
+        DatabaseReference reference = database.getReference().child(USERS);
         reference.get().addOnSuccessListener(dataSnapshot ->
                         dataSnapshot.getChildren().forEach(child -> {
                             String uid = child.getKey();
-                            Object emailObj = child.child("email").getValue();
-                            Object nicknameObj = child.child("nickname").getValue();
+                            Object emailObj = child.child(EMAIL).getValue();
+                            Object nicknameObj = child.child(NICKNAME).getValue();
 
                             if (uid == null || emailObj == null || nicknameObj == null) {
                                 // Skip user with missing data
