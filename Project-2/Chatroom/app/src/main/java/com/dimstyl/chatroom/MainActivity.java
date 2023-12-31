@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void signIn(View view) {
-        if (editTextsNotNullOrEmpty(List.of(emailEditText, passwordEditText))) {
+        if (editTextsEmpty(List.of(emailEditText, passwordEditText))) {
             String email = emailEditText.getText().toString();
             String password = passwordEditText.getText().toString();
             FirebaseUtil.signIn(email, password, this);
@@ -47,20 +47,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void signUp(View view) {
-        if (editTextsNotNullOrEmpty(List.of(emailEditText, passwordEditText, nicknameEditText))) {
-            String email = emailEditText.getText().toString();
-            String password = passwordEditText.getText().toString();
-            String nickname = nicknameEditText.getText().toString();
-
-            if (!nicknameLengthConstraint(nickname)) {
-                showMessage("Error", "Nickname must be between 3 and 15 characters long!");
-                return;
-            }
-
-            FirebaseUtil.signUp(email, password, nickname, this);
-        } else {
+        if (editTextsEmpty(List.of(emailEditText, passwordEditText, nicknameEditText))) {
             showMessage("Error", "Please provide all info!");
+            return;
         }
+
+        String email = emailEditText.getText().toString();
+        String password = passwordEditText.getText().toString();
+        String nickname = nicknameEditText.getText().toString();
+
+        if (!nicknameLengthConstraint(nickname)) {
+            showMessage("Error", "Nickname must be between 3 and 15 characters long!");
+            return;
+        }
+
+        FirebaseUtil.signUp(email, password, nickname, this);
     }
 
     void startAvailableUsersActivity() {
@@ -87,9 +88,8 @@ public class MainActivity extends AppCompatActivity {
                 .show();
     }
 
-    private boolean editTextsNotNullOrEmpty(List<EditText> editTexts) {
-        return editTexts.stream()
-                .noneMatch(editText -> editText == null || editText.getText().toString().trim().isEmpty());
+    private boolean editTextsEmpty(List<EditText> editTexts) {
+        return editTexts.stream().noneMatch(editText -> editText.getText().toString().trim().isEmpty());
     }
 
     private void clearTextFields() {
