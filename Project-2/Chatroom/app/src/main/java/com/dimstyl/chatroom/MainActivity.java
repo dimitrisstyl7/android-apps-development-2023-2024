@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean editTextsEmpty(List<EditText> editTexts) {
-        return editTexts.stream().noneMatch(editText -> editText.getText().toString().trim().isEmpty());
+        return editTexts.stream().anyMatch(editText -> editText.getText().toString().trim().isEmpty());
     }
 
     private void clearTextFields() {
