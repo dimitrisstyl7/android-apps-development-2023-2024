@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         String password = passwordEditText.getText().toString();
         String nickname = nicknameEditText.getText().toString();
 
-        if (!nicknameLengthConstraint(nickname)) {
+        if (notMatchNicknameLengthConstraint(nickname)) {
             showMessage("Error", "Nickname must be between 3 and 15 characters long!");
             return;
         }
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         nicknameEditText.setText("");
     }
 
-    private boolean nicknameLengthConstraint(String nickname) {
-        return nickname.length() >= 3 && nickname.length() <= 15;
+    private boolean notMatchNicknameLengthConstraint(String nickname) {
+        return nickname.length() < 3 || nickname.length() > 15;
     }
 }
