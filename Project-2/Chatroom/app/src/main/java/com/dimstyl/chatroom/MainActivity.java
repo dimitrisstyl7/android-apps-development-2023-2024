@@ -38,12 +38,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void signIn(View view) {
         if (editTextsEmpty(List.of(emailEditText, passwordEditText))) {
-            String email = emailEditText.getText().toString();
-            String password = passwordEditText.getText().toString();
-            FirebaseUtil.signIn(email, password, this);
-        } else {
             showMessage("Error", "Please provide all info!");
+            return;
         }
+        String email = emailEditText.getText().toString();
+        String password = passwordEditText.getText().toString();
+        FirebaseUtil.signIn(email, password, this);
     }
 
     public void signUp(View view) {
