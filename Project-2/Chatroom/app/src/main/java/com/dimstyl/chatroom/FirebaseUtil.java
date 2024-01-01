@@ -21,9 +21,6 @@ public class FirebaseUtil {
     static final String NICKNAME = "nickname";
     static final String EVERYONE = "everyone";
     static final String MESSAGES = "messages";
-    static final String SENDER_UID = "senderUid";
-    static final String RECEIVER_UID = "receiverUid";
-    static final String MESSAGE_TEXT = "text";
 
     static FirebaseUser getUser() {
         return AUTH.getCurrentUser();
