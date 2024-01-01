@@ -150,4 +150,13 @@ public class FirebaseUtil {
                         }
                 );
     }
+
+    private static String getConversationId(String receiverUid) {
+        return receiverUid.equals(EVERYONE) ?
+                EVERYONE : getUid().compareTo(receiverUid) < 0 ? getUid() + receiverUid : receiverUid + getUid();
+    }
+
+    static boolean isSenderCurrentUser(String senderUid) {
+        return getUid().equals(senderUid);
+    }
 }
