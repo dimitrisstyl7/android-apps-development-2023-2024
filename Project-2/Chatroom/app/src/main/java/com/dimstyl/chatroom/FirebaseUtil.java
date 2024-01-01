@@ -1,8 +1,14 @@
 package com.dimstyl.chatroom;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -149,6 +155,66 @@ public class FirebaseUtil {
                             activity.signOut();
                         }
                 );
+    }
+
+    static void addChildEventListener(String receiverUid, ChatroomActivity activity) {
+        String conversationId = getConversationId(receiverUid);
+        DatabaseReference reference = DATABASE.getReference().child(MESSAGES).child(conversationId);
+
+        reference.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                Message message = snapshot.getValue(Message.class);
+
+                if (message == null) {
+                    // @TODO: if null, show error message
+                    return;
+                }
+
+                activity.addMessageToLinearLayout(message);
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                activity.showMessage("Oops...", "Something went wrong, please try again.");
+            }
+        });
+    }
+
+    static void saveMessage(String receiverUid, String messageText, ChatroomActivity activity) {
+        DatabaseReference reference = DATABASE.getReference().child(MESSAGES);
+        String conversationId = getConversationId(receiverUid);
+        String senderUid = getUid();
+        String timestamp = String.valueOf(System.currentTimeMillis());
+        String messageId = reference.child(conversationId).push().getKey();
+
+        if (messageId == null) {
+            activity.showMessage("Oops...", "Something went wrong, please try again.");
+            return;
+        }
+
+        if (receiverUid.equals(EVERYONE)) {
+            // Chatting with everyone
+            String senderNickname = getNickname();
+            reference.child(conversationId).child(messageId)
+                    .setValue(new Message(senderUid, receiverUid, senderNickname, messageText, timestamp));
+        } else {
+            // Chatting with a specific user
+            reference.child(conversationId).child(messageId)
+                    .setValue(new Message(senderUid, receiverUid, messageText, timestamp));
+        }
     }
 
     private static String getConversationId(String receiverUid) {
