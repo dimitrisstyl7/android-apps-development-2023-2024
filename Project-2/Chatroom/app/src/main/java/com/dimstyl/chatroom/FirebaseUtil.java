@@ -83,16 +83,17 @@ public class FirebaseUtil {
                                 // Wait for nickname to be updated
                             }
 
-                            activity.showMessage("Success", "User profile created successfully!",
-                                    "Go to chatroom", (dialog, which) -> {
-                                        activity.startAvailableUsersActivity();
-                                    },
-                                    "Close", (dialog, which) -> signOut());
+                            activity.showMessage(
+                                    "Success",
+                                    "User profile created successfully!",
+                                    "Go to chatroom",
+                                    (dialog, which) -> activity.startAvailableUsersActivity(),
+                                    "Close",
+                                    (dialog, which) -> signOut()
+                            );
                         }
                 )
-                .addOnFailureListener(e -> {
-                            activity.showMessage("Error", "Please check your credentials.\n\nWarning:\n\t> Password must be at least 6 characters long!\n\t> Email must not be already in use!");
-                        }
+                .addOnFailureListener(e -> activity.showMessage("Error", "Please check your credentials.\n\nWarning:\n\t> Password must be at least 6 characters long.\n\t> Email must not be already in use.")
                 );
     }
 
