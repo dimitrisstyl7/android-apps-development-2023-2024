@@ -24,7 +24,6 @@ public class AvailableUsersActivity extends AppCompatActivity {
         userNicknameTextView.setText(getString(R.string.signed_in_as, FirebaseUtil.getNickname()));
 
         usersLinearLayout = findViewById(R.id.usersLinearLayout);
-        fillLinearLayoutWithUsers();
     }
 
     @Override
