@@ -32,7 +32,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        FirebaseUtil.signOut();
+        // if user is still signed in, sign out him
+        if (FirebaseUtil.isSignedIn()) {
+            FirebaseUtil.signOut();
+        }
         clearTextFields();
     }
 
