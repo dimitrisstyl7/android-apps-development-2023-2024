@@ -57,6 +57,7 @@ public class ChatroomActivity extends AppCompatActivity {
         super.onStop();
         messagesLinearLayout.removeAllViews();
         inputEditText.setText("");
+        FirebaseUtil.removeChildEventListeners();
     }
 
     void addMessageToLinearLayout(Message message) {
