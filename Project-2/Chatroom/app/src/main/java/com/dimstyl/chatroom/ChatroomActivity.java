@@ -39,6 +39,7 @@ public class ChatroomActivity extends AppCompatActivity {
         receiverNickname =
                 receiverUid.equals(FirebaseUtil.getUid()) ? "yourself" : getIntent().getStringExtra("receiverNickname");
         chattingWithtextView.setText(getString(R.string.chatting_with, receiverNickname));
+    }
 
         /*
          * Add listener for messages.
