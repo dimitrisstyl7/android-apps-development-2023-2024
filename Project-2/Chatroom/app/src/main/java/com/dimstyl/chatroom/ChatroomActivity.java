@@ -135,6 +135,7 @@ public class ChatroomActivity extends AppCompatActivity {
             // Message is sent by other user
             textView.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
         }
+
         // Set text size
         textView.setTextSize(24);
 
