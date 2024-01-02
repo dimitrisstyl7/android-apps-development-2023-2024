@@ -106,15 +106,14 @@ public class ChatroomActivity extends AppCompatActivity {
         if (isSenderCurrentUser) {
             // Message is sent by current user
             addNicknameToLinearLayout(FirebaseUtil.getNickname(), true);
+        } else if (receiverUid.equals(FirebaseUtil.EVERYONE)) {
+            // Message is sent by other user to everyone
+            addNicknameToLinearLayout(message.getSenderNickname(), false);
         } else {
-            if (receiverUid.equals(FirebaseUtil.EVERYONE)) {
-                // Message is sent by other user to everyone
-                addNicknameToLinearLayout(message.getSenderNickname(), false);
-            } else {
-                // Message is sent by other user to current user
-                addNicknameToLinearLayout(receiverNickname, false);
-            }
+            // Message is sent by other user to current user
+            addNicknameToLinearLayout(receiverNickname, false);
         }
+
         // Set textView message text
         textView.setText(message.getText());
 
