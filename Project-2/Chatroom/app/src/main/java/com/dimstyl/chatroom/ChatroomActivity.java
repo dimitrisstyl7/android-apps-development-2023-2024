@@ -185,6 +185,10 @@ public class ChatroomActivity extends AppCompatActivity {
         inputEditText.setText("");
     }
 
+    private boolean editTextEmpty(EditText editText) {
+        return editText.getText().toString().trim().isEmpty();
+    }
+
     void showMessage(String title, String message) {
         new AlertDialog.Builder(this)
                 .setTitle(title)
