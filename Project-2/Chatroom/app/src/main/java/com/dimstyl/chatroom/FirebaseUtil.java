@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.IntStream;
 
 public class FirebaseUtil {
     // Initialize Firebase Authentication
@@ -208,6 +209,17 @@ public class FirebaseUtil {
         childEventListenerReference.addChildEventListener(childEventListener);
         childEventListenersReferences.add(childEventListenerReference);
         childEventListeners.add(childEventListener);
+    }
+
+    static void removeChildEventListeners() {
+        IntStream.range(0, childEventListenersReferences.size())
+                .forEach(i -> {
+                    DatabaseReference reference = childEventListenersReferences.get(i);
+                    ChildEventListener childEventListener = childEventListeners.get(i);
+                    reference.removeEventListener(childEventListener);
+                });
+        childEventListenersReferences.clear();
+        childEventListeners.clear();
     }
 
     static void saveMessage(String receiverUid, String messageText, ChatroomActivity activity) {
