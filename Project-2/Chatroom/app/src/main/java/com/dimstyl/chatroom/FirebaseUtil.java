@@ -171,7 +171,9 @@ public class FirebaseUtil {
                 Message message = snapshot.getValue(Message.class);
 
                 if (message == null) {
-                    // @TODO: if null, show error message
+                    Log.e("FirebaseUtil", "onChildAdded: message == null");
+                    activity.showMessage("Oops...", "Something went wrong, please try again.");
+                    activity.finish();
                     return;
                 }
 
@@ -192,6 +194,7 @@ public class FirebaseUtil {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("FirebaseUtil", "onCancelled: " + error.getMessage());
                 activity.showMessage("Oops...", "Something went wrong, please try again.");
             }
         });
