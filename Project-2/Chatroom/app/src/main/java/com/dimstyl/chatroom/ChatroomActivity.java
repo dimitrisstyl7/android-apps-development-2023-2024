@@ -49,8 +49,8 @@ public class ChatroomActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
+    protected void onStop() {
+        super.onStop();
         messagesLinearLayout.removeAllViews();
         inputEditText.setText("");
     }
