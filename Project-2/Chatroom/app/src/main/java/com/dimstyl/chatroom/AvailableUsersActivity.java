@@ -24,14 +24,14 @@ public class AvailableUsersActivity extends AppCompatActivity {
         userNicknameTextView.setText(getString(R.string.signed_in_as, FirebaseUtil.getNickname()));
 
         usersLinearLayout = findViewById(R.id.usersLinearLayout);
-        fillLinearLayout();
+        fillLinearLayoutWithUsers();
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
         usersLinearLayout.removeAllViews();
-        fillLinearLayout();
+        fillLinearLayoutWithUsers();
     }
 
     public void signOut(View view) {
@@ -43,7 +43,7 @@ public class AvailableUsersActivity extends AppCompatActivity {
         finish();
     }
 
-    private void fillLinearLayout() {
+    private void fillLinearLayoutWithUsers() {
         // Add button for chat with all users
         addUserToLinearLayout(null);
 
