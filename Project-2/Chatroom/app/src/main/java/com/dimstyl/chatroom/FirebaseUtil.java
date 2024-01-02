@@ -149,12 +149,12 @@ public class FirebaseUtil {
                                     // Add user to LinearLayout
                                     String email = emailObj.toString();
                                     String nickname = nicknameObj.toString();
-                                    User user = new User(uid, email, nickname);
-                                    activity.addUserToLinearLayout(user);
+                                    activity.addUserToLinearLayout(new User(uid, email, nickname));
                                 }
                         )
                 )
                 .addOnFailureListener(e -> {
+                            Log.e("FirebaseUtil", "getAllUsers: " + e.getMessage());
                             activity.showMessage("Oops...", "Something went wrong, please try again.");
                             activity.signOut();
                         }
