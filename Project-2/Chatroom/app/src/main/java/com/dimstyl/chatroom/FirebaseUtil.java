@@ -94,12 +94,28 @@ public class FirebaseUtil {
         AUTH.signOut();
     }
 
-    private static void setUserNickname(String nickname) {
+    private static void setUserNickname(String nickname, MainActivity activity) {
         getUser().updateProfile(
-                new UserProfileChangeRequest.Builder()
-                        .setDisplayName(nickname)
-                        .build()
-        );
+                        new UserProfileChangeRequest.Builder()
+                                .setDisplayName(nickname)
+                                .build()
+                )
+                .addOnSuccessListener(aVoid -> {
+                    if (!isSignedIn()) {
+                        // If for a reason user is not signed in after successful sign up, show success sign up message and return.
+                        activity.showMessage("Success", "User profile created successfully! You can now sign in.");
+                        return;
+                    }
+                    activity.showMessage(
+                            "Success",
+                            "User profile created successfully!",
+                            "Go to chatroom",
+                            (dialog, which) -> activity.startAvailableUsersActivity(),
+                            "Close",
+                            (dialog, which) -> signOut()
+                    );
+                })
+                .addOnFailureListener(e -> Log.e("FirebaseUtil", "setUserNickname: " + e.getMessage()));
     }
 
     private static void addUserToDatabase(String email, String nickname) {
