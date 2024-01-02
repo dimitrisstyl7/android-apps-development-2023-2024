@@ -68,6 +68,20 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(this, AvailableUsersActivity.class));
     }
 
+    private boolean editTextsEmpty(List<EditText> editTexts) {
+        return editTexts.stream().anyMatch(editText -> editText.getText().toString().trim().isEmpty());
+    }
+
+    private void clearTextFields() {
+        emailEditText.setText("");
+        passwordEditText.setText("");
+        nicknameEditText.setText("");
+    }
+
+    private boolean notMatchNicknameLengthConstraint(String nickname) {
+        return nickname.length() < 3 || nickname.length() > 15;
+    }
+
     void showMessage(String title, String message) {
         new AlertDialog.Builder(this)
                 .setTitle(title)
@@ -86,19 +100,5 @@ public class MainActivity extends AppCompatActivity {
                 .setPositiveButton(positiveButtonText, onClickListenerForPositiveButton)
                 .setNegativeButton(negativeButtonText, onClickListenerForNegativeButton)
                 .show();
-    }
-
-    private boolean editTextsEmpty(List<EditText> editTexts) {
-        return editTexts.stream().anyMatch(editText -> editText.getText().toString().trim().isEmpty());
-    }
-
-    private void clearTextFields() {
-        emailEditText.setText("");
-        passwordEditText.setText("");
-        nicknameEditText.setText("");
-    }
-
-    private boolean notMatchNicknameLengthConstraint(String nickname) {
-        return nickname.length() < 3 || nickname.length() > 15;
     }
 }
