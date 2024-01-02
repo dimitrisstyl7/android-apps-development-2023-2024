@@ -1,5 +1,7 @@
 package com.dimstyl.chatroom;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -50,21 +52,22 @@ public class FirebaseUtil {
 
     static void signIn(String email, String password, MainActivity activity) {
         AUTH.signInWithEmailAndPassword(
-                email,
-                password
-        ).addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        if (!isSignedIn() || getNickname() == null) {
-                            activity.showMessage("Oops...", "Something went wrong, please sign in again.");
-                            signOut();
-                            return;
-                        }
-                        activity.startAvailableUsersActivity();
-                    } else {
-                        activity.showMessage("Error", "Please check your credentials.");
+                        email,
+                        password
+                )
+                .addOnSuccessListener(authResult -> {
+                    if (getNickname() == null) {
+                        Log.e("FirebaseUtil", "signIn: getNickname() == null");
+                        activity.showMessage("Oops...", "Something went wrong, please sign in again.");
+                        signOut();
+                        return;
                     }
-                }
-        );
+                    activity.startAvailableUsersActivity();
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("FirebaseUtil", "signIn: " + e.getMessage());
+                    activity.showMessage("Error", "Please check your credentials.");
+                });
     }
 
     static void signUp(String email, String password, String nickname, MainActivity activity) {
