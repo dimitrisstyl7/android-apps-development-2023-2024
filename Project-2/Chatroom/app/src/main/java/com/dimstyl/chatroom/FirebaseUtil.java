@@ -123,7 +123,8 @@ public class FirebaseUtil {
         Map<String, String> userData = new HashMap<>();
         userData.put(EMAIL, email);
         userData.put(NICKNAME, nickname);
-        reference.setValue(userData);
+        reference.setValue(userData)
+                .addOnFailureListener(e -> Log.e("FirebaseUtil", "addUserToDatabase: " + e.getMessage()));
     }
 
     static void getAllUsers(AvailableUsersActivity activity) {
