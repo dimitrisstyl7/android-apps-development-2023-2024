@@ -76,33 +76,17 @@ public class FirebaseUtil {
                         password
                 )
                 .addOnSuccessListener(authResult -> {
-                            // Set authenticated user's nickname
-                            setUserNickname(nickname);
-
                             // Add user's uid, email and nickname to database (for future use - available users activity)
                             addUserToDatabase(email, nickname);
 
-                            if (!isSignedIn()) {
-                                // If for a reason user is not signed in after successful sign up, show success sign up message and return.
-                                activity.showMessage("Success", "User profile created successfully! You can now sign in.");
-                                return;
-                            }
-
-                            while (getNickname() == null) {
-                                // Wait for nickname to be updated
-                            }
-
-                            activity.showMessage(
-                                    "Success",
-                                    "User profile created successfully!",
-                                    "Go to chatroom",
-                                    (dialog, which) -> activity.startAvailableUsersActivity(),
-                                    "Close",
-                                    (dialog, which) -> signOut()
-                            );
+                            // Set authenticated user's nickname
+                            setUserNickname(nickname, activity);
                         }
                 )
-                .addOnFailureListener(e -> activity.showMessage("Error", "Please check your credentials.\n\nWarning:\n\t> Password must be at least 6 characters long.\n\t> Email must not be already in use.")
+                .addOnFailureListener(e -> {
+                            Log.e("FirebaseUtil", "signUp: " + e.getMessage());
+                            activity.showMessage("Error", "Please check your credentials.\n\nWarning:\n\t> Password must be at least 6 characters long.\n\t> Email must not be already in use.");
+                        }
                 );
     }
 
