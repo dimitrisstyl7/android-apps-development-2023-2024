@@ -14,7 +14,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class FirebaseUtil {
@@ -24,6 +26,11 @@ public class FirebaseUtil {
     // Initialize Firebase Realtime Database
     private static final FirebaseDatabase DATABASE = FirebaseDatabase.getInstance();
 
+    // References and listeners for messages
+    private static final List<DatabaseReference> childEventListenersReferences = new ArrayList<>();
+    private static final List<ChildEventListener> childEventListeners = new ArrayList<>();
+
+    // Constants for database
     static final String USERS = "users";
     static final String EMAIL = "email";
     static final String NICKNAME = "nickname";
