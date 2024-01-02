@@ -2,6 +2,7 @@ package com.dimstyl.chatroom;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
@@ -119,6 +120,59 @@ public class ChatroomActivity extends AppCompatActivity {
         textView.setAllCaps(false);
 
         return textView;
+    }
+
+    private void addNicknameToLinearLayout(String nickname, boolean isSenderCurrentUser) {
+        // Create new textView
+        TextView textView = new TextView(this);
+
+        // Set text alignment
+        if (isSenderCurrentUser) {
+            // Message is sent by current user
+            textView.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_END);
+        } else {
+            // Message is sent by other user
+            textView.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
+        }
+        // Set text size
+        textView.setTextSize(24);
+
+        // Set text color
+        textView.setTextColor(getColor(R.color.green));
+
+        // Set textView font family
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/AkayaTelivigala-Regular.ttf");
+        textView.setTypeface(typeface);
+
+        // Set textView margins
+        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+        ViewGroup.MarginLayoutParams marginParams = new ViewGroup.MarginLayoutParams(params);
+        if (isSenderCurrentUser) {
+            // Message is sent by current user
+            marginParams.setMargins(0, 0, 40, 0);
+        } else {
+            // Message is sent by other user
+            marginParams.setMargins(40, 0, 0, 0);
+        }
+        textView.setLayoutParams(marginParams);
+
+        // Set textView text
+        textView.setText(nickname);
+
+        // Underline textView
+        textView.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
+
+        // Set textView bold and italic
+        textView.setTypeface(textView.getTypeface(), Typeface.BOLD_ITALIC);
+
+        // Disable textView all caps
+        textView.setAllCaps(false);
+
+        // Add textView to linearLayout
+        messagesLinearLayout.addView(textView);
     }
 
     void showMessage(String title, String message) {
