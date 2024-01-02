@@ -208,6 +208,7 @@ public class FirebaseUtil {
         String messageId = reference.child(conversationId).push().getKey();
 
         if (messageId == null) {
+            Log.e("FirebaseUtil", "saveMessage: messageId == null");
             activity.showMessage("Oops...", "Something went wrong, please try again.");
             return;
         }
@@ -216,11 +217,19 @@ public class FirebaseUtil {
             // Chatting with everyone
             String senderNickname = getNickname();
             reference.child(conversationId).child(messageId)
-                    .setValue(new Message(senderUid, receiverUid, senderNickname, messageText, timestamp));
+                    .setValue(new Message(senderUid, receiverUid, senderNickname, messageText, timestamp))
+                    .addOnFailureListener(e -> {
+                        Log.e("FirebaseUtil", "saveMessage: " + e.getMessage());
+                        activity.showMessage("Oops...", "Something went wrong, please try again.");
+                    });
         } else {
             // Chatting with a specific user
             reference.child(conversationId).child(messageId)
-                    .setValue(new Message(senderUid, receiverUid, messageText, timestamp));
+                    .setValue(new Message(senderUid, receiverUid, messageText, timestamp))
+                    .addOnFailureListener(e -> {
+                        Log.e("FirebaseUtil", "saveMessage: " + e.getMessage());
+                        activity.showMessage("Oops...", "Something went wrong, please try again.");
+                    });
         }
     }
 
