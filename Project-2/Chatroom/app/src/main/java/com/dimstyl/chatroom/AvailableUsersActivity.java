@@ -27,8 +27,8 @@ public class AvailableUsersActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
+    protected void onStart() {
+        super.onStart();
         usersLinearLayout.removeAllViews();
         fillLinearLayoutWithUsers();
     }
