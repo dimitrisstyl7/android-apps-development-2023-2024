@@ -175,6 +175,16 @@ public class ChatroomActivity extends AppCompatActivity {
         messagesLinearLayout.addView(textView);
     }
 
+    public void sendMessage(View view) {
+        if (editTextEmpty(inputEditText)) {
+            showMessage("Error", "Please write a message first!");
+            return;
+        }
+        String messageText = inputEditText.getText().toString();
+        FirebaseUtil.saveMessage(receiverUid, messageText, this);
+        inputEditText.setText("");
+    }
+
     void showMessage(String title, String message) {
         new AlertDialog.Builder(this)
                 .setTitle(title)
