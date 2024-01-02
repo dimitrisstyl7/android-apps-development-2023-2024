@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -30,6 +31,7 @@ public class ChatroomActivity extends AppCompatActivity {
 
         receiverUid = getIntent().getStringExtra("receiverUid");
         if (receiverUid == null) {
+            Log.e("ChatroomActivity", "onCreate: receiverUid == null");
             showMessage("Oops...", "Something went wrong, please try again.", "Close", (dialogInterface, i) -> finish());
             return;
         }
