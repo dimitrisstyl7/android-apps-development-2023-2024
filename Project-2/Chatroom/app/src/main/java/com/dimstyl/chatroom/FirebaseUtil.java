@@ -145,6 +145,7 @@ public class FirebaseUtil {
 
                                     if (uid == null || emailObj == null || nicknameObj == null) {
                                         // Skip user with missing data
+                                        Log.e("FirebaseUtil", "getAllUsers: uid == null || emailObj == null || nicknameObj == null");
                                         return;
                                     }
 
