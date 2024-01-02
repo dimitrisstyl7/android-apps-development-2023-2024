@@ -171,9 +171,8 @@ public class FirebaseUtil {
 
     static void addChildEventListener(String receiverUid, ChatroomActivity activity) {
         String conversationId = getConversationId(receiverUid);
-        DatabaseReference reference = DATABASE.getReference().child(MESSAGES).child(conversationId);
-
-        reference.addChildEventListener(new ChildEventListener() {
+        DatabaseReference childEventListenerReference = DATABASE.getReference().child(MESSAGES).child(conversationId);
+        ChildEventListener childEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 Message message = snapshot.getValue(Message.class);
@@ -203,9 +202,12 @@ public class FirebaseUtil {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Log.e("FirebaseUtil", "onCancelled: " + error.getMessage());
-                activity.showMessage("Oops...", "Something went wrong, please try again.");
             }
-        });
+        };
+
+        childEventListenerReference.addChildEventListener(childEventListener);
+        childEventListenersReferences.add(childEventListenerReference);
+        childEventListeners.add(childEventListener);
     }
 
     static void saveMessage(String receiverUid, String messageText, ChatroomActivity activity) {
