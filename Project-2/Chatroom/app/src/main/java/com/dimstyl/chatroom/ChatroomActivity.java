@@ -41,6 +41,9 @@ public class ChatroomActivity extends AppCompatActivity {
         chattingWithtextView.setText(getString(R.string.chatting_with, receiverNickname));
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
         /*
          * Add listener for messages.
          * At the beginning, it will fill linearLayout with old messages.
