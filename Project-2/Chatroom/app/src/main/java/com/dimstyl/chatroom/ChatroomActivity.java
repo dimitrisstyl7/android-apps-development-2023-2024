@@ -49,6 +49,14 @@ public class ChatroomActivity extends AppCompatActivity {
         inputEditText.setText("");
     }
 
+    void addMessageToLinearLayout(Message message) {
+        TextView textView = createTextView(message);
+        messagesLinearLayout.addView(textView);
+
+        // Set focus to each message (scroll to bottom)
+        messagesLinearLayout.requestChildFocus(textView, textView);
+    }
+
     void showMessage(String title, String message) {
         new AlertDialog.Builder(this)
                 .setTitle(title)
