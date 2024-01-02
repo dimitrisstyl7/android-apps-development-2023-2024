@@ -42,6 +42,13 @@ public class ChatroomActivity extends AppCompatActivity {
         FirebaseUtil.addChildEventListener(receiverUid, this);
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        messagesLinearLayout.removeAllViews();
+        inputEditText.setText("");
+    }
+
     void showMessage(String title, String message) {
         new AlertDialog.Builder(this)
                 .setTitle(title)
