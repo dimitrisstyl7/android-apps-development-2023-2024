@@ -36,7 +36,7 @@ public class FirebaseUtil {
     static final String EMAIL = "email";
     static final String NICKNAME = "nickname";
     static final String EVERYONE = "everyone";
-    static final String MESSAGES = "messages";
+    static final String CONVERSATIONS = "conversations";
 
     static FirebaseUser getUser() {
         return AUTH.getCurrentUser();
@@ -172,7 +172,7 @@ public class FirebaseUtil {
 
     static void addChildEventListener(String receiverUid, ChatroomActivity activity) {
         String conversationId = getConversationId(receiverUid);
-        DatabaseReference childEventListenerReference = DATABASE.getReference().child(MESSAGES).child(conversationId);
+        DatabaseReference childEventListenerReference = DATABASE.getReference().child(CONVERSATIONS).child(conversationId);
         ChildEventListener childEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
@@ -223,7 +223,7 @@ public class FirebaseUtil {
     }
 
     static void saveMessage(String receiverUid, String messageText, ChatroomActivity activity) {
-        DatabaseReference reference = DATABASE.getReference().child(MESSAGES);
+        DatabaseReference reference = DATABASE.getReference().child(CONVERSATIONS);
         String conversationId = getConversationId(receiverUid);
         String senderUid = getUid();
         String timestamp = String.valueOf(System.currentTimeMillis());
