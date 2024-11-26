@@ -18,5 +18,8 @@ The Speedometer application is designed to measure and display the current speed
 
 In the event of exceeding the set speed limit, the application records the incident in a SQLite database, capturing essential information such as geographic coordinates (latitude and longitude), speed, and a timestamp. Additionally, the app changes the color of the activity screen to indicate the speed limit breach and provides an audible warning through the TextToSpeech Engine, ensuring that users are promptly alerted to potential dangers. This project not only enhances user awareness while driving but also serves as a practical implementation of mobile application development concepts.
 
+## Acknowledgments
+This project was developed as part of the "Current Topics Of Software Engineering - Software For Mobile Devices" course at the University of Piraeus. Contributions and feedback are always welcome!
+
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
